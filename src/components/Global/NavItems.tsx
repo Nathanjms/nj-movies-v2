@@ -1,5 +1,4 @@
-import { FaHome, FaMusic, FaUser, FaUserGraduate } from "react-icons/fa";
-import { GiProgression } from "react-icons/gi";
+import { FaFilm, FaQuestion, FaRandom, FaStopwatch } from "react-icons/fa";
 
 interface navItemsProps {
   link: string;
@@ -10,28 +9,23 @@ interface navItemsProps {
 const navItems: navItemsProps[] = [
   {
     link: "/",
-    text: "Home",
-    icon: <FaHome />,
+    text: "Movies",
+    icon: <FaFilm />,
+  },
+  {
+    link: "/watched",
+    text: "Watched Movies",
+    icon: <FaStopwatch />,
+  },
+  {
+    link: "/random",
+    text: "Random Movie Picker",
+    icon: <FaRandom />,
   },
   {
     link: "/about",
     text: "About",
-    icon: <FaUser />,
-  },
-  {
-    link: "/skills",
-    text: "Skills",
-    icon: <GiProgression />,
-  },
-  {
-    link: "/test",
-    text: "Education",
-    icon: <FaUserGraduate />,
-  },
-  {
-    link: "/music",
-    text: "Music",
-    icon: <FaMusic />,
+    icon: <FaQuestion />,
   },
 ];
 

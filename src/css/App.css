@@ -63,9 +63,17 @@ a:hover {
 
 body {
   background-color: var(--dark);
-  min-height: 50vh;
   color: #f9f9f9;
   text-align: center;
+}
+
+#header {
+  min-height:15vh;
+  background-color: var(--dark2);
+}
+
+#body {
+  min-height: 70vh;
 }
 
 .App-link {
@@ -91,7 +99,7 @@ body {
 
 #footer {
   background-color: var(--dark2);
-  min-height: 20vh;
+  min-height: 15vh;
   padding-top: 30px;
   padding-bottom: 20px;
   color: #f9f9f9;
@@ -138,41 +146,4 @@ body {
 
 .nav-link.active {
   font-weight: bold;
-}
-
-/*--------------------------------------------------------------
-# Main Content
---------------------------------------------------------------*/
-
-.add-sub-btns-container {
-  padding: 10px;
-  background-color: var(--dark);
-  margin-inline: auto;
-  border-radius: 5px;
-}
-
-.add-sub-btns-container .btn {
-  margin-block: 5px;
-  min-width: 73px;
-  width: 100%;
-}
-
-.grey-card {
-  padding: 20px;
-  background-color: var(--dark2);
-  border-radius: 5px;
-  margin-inline: auto;
-}
-
-.list-group-item.active {
-  background-color: var(--primary);
-  border-color: var(--primary);
-}
-
-.note {
-  margin-top: 20px;
-  background-color: #3d4148;
-  padding: 30px;
-  border-radius: 10px;
-  word-wrap: break-word;
 }
