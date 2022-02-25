@@ -1,0 +1,176 @@
+:root {
+  --primary: rgb(123, 38, 173);
+  --primaryLight: rgb(150, 98, 181);
+  --teal: #269bad;
+  --teal2: #34bdd2;
+  --darkBackground: #282c34;
+  --greyBackground: #3d4148;
+}
+
+::selection {
+  background-color: var(--primary);
+  color: #fff;
+}
+
+::-moz-selection {
+  background-color: var(--primary);
+  color: #fff;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus,
+.btn-primary:disabled {
+  background-color: var(--primaryLight);
+  border: 1px solid var(--primaryLight);
+}
+
+a {
+  color: var(--teal);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--teal2);
+  text-decoration: underline;
+}
+
+.App-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.wrapper {
+  min-height: 80vh;
+  padding-bottom: 40px;
+  padding-top: 10px;
+}
+
+.section {
+  padding-block: 20px;
+}
+
+body {
+  background-color: var(--darkBackground);
+  min-height: 50vh;
+  color: #f9f9f9;
+  text-align: center;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.spinner {
+  animation: spin infinite 5s linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*--------------------------------------------------------------
+# Footer
+--------------------------------------------------------------*/
+
+#footer {
+  background-color: var(--greyBackground);
+  min-height: 20vh;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  color: #f9f9f9;
+}
+
+.footerLogos {
+  color: #f2f3f5 !important;
+  background: var(--darkBackground);
+  padding: 6px 8px;
+  margin-right: 8px;
+  font-size: 12px;
+  border-radius: 5px;
+}
+
+.footerLogos:hover {
+  background-color: white;
+}
+
+.footerLogos:hover > svg {
+  color: var(--greyBackground) !important;
+}
+
+.footerList li {
+  margin-bottom: 5px;
+}
+
+/*--------------------------------------------------------------
+# NavBar
+--------------------------------------------------------------*/
+
+.bg-grey {
+  border-bottom: 1px solid var(--darkBackground);
+  background-color: var(--greyBackground) !important;
+}
+
+.nav-item {
+  padding: 0.5rem 1rem;
+}
+
+.navbar-dark .navbar-nav .nav-link,
+.navbar-dark .navbar-nav .nav-item {
+  color: white;
+}
+
+.nav-link.active {
+  font-weight: bold;
+}
+
+/*--------------------------------------------------------------
+# Main Content
+--------------------------------------------------------------*/
+
+.add-sub-btns-container {
+  padding: 10px;
+  background-color: var(--darkBackground);
+  margin-inline: auto;
+  border-radius: 5px;
+}
+
+.add-sub-btns-container .btn {
+  margin-block: 5px;
+  min-width: 73px;
+  width: 100%;
+}
+
+.grey-card {
+  padding: 20px;
+  background-color: var(--greyBackground);
+  border-radius: 5px;
+  margin-inline: auto;
+}
+
+.list-group-item.active {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.note {
+  margin-top: 20px;
+  background-color: #3d4148;
+  padding: 30px;
+  border-radius: 10px;
+  word-wrap: break-word;
+}
