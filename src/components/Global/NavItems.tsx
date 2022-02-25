@@ -24,7 +24,7 @@ const navItems: navItemsProps[] = [
     icon: <GiProgression />,
   },
   {
-    link: "/education",
+    link: "/test",
     text: "Education",
     icon: <FaUserGraduate />,
   },

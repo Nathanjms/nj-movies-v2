@@ -10,6 +10,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<NavBar />} />
+        <Route path="/test" element={<NotFound />} />
         <Route
           path="*"
           element={<NavBar />}
