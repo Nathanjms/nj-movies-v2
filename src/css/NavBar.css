@@ -1,0 +1,155 @@
+.navBar-container {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  z-index: 9997;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+  .navBar-container {
+    justify-content: center;
+    flex-direction: column;
+    top: 0;
+    left: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .navBar-container {
+    justify-content: space-evenly;
+    flex-direction: row;
+    right: 0;
+  }
+}
+
+.navBar * {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navBar {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.navBar > ul > li {
+  position: relative;
+  white-space: nowrap;
+  border-color: var(--dark);
+  display: inline;
+}
+
+.navBar a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.navBar a i {
+  font-size: 20px;
+}
+
+.navBar a span {
+  padding: 0 5px 0 7px;
+  color: #45505b;
+}
+
+.navBar a:hover,
+.navBar .active > a,
+.navBar li:hover > a {
+  color: #fff;
+  background: var(--primary);
+}
+
+.navBar a:hover span,
+.navBar .active > a span,
+.navBar li:hover > a span {
+  color: #fff;
+}
+
+.navBar a:hover,
+.navBar li:hover > a {
+  width: 100%;
+  color: #fff;
+}
+
+.button-logos {
+  color: #45505b;
+  padding: 8px 10px 8px 10px;
+  border-radius: 10px;
+  background: #f2f3f5;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.button-logos:hover {
+  color: white;
+  background-color: var(--primary);
+}
+
+.button-logos:hover > svg {
+  color: white !important;
+}
+
+.button-shape {
+  color: #45505b;
+  padding: 10px 20px;
+  transition: 0.3s;
+  font-size: 15px;
+  border-radius: 20px;
+  background: #f2f3f5;
+  height: 56px;
+  width: 100%;
+  overflow: hidden;
+  width: 56px;
+}
+
+.btn-clicked {
+  background-color: var(--primary);
+  color: #fff !important;
+}
+
+.mobile-button {
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .navBar a {
+    margin-bottom: 20px;
+  }
+  .navBar a span {
+    display: none;
+    color: #fff;
+  }
+  .navBar a:hover span,
+  .navBar li:hover > a span {
+    display: block;
+  }
+  .mobile-button {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .navBar a {
+    margin-bottom: 5px;
+  }
+  .navBar ul {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-bottom: 1rem;
+  }
+  .navBar a span {
+    display: none;
+    color: #fff;
+  }
+  .hide-nav {
+    display: none !important;
+  }
+}
