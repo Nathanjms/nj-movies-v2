@@ -1,6 +1,7 @@
 import React, { ReactElement, useReducer } from "react";
 import { FaBars } from "react-icons/fa";
 import navItems from "./NavItems";
+import { NavLink } from "react-router-dom";
 import "../../css/NavBar.css";
 
 const NavBar: React.FC<{}> = (): ReactElement => {
@@ -27,14 +28,16 @@ const NavBar: React.FC<{}> = (): ReactElement => {
     <header className="navBar-container">
       <nav className="navBar">
         <ul className={hideNav ? "links hide-nav" : "links"}>
-          {navItems.map((objLink, i) => {
+          {navItems.map((element, id) => {
             return (
-              <li key={i}>
-                <a className="button-shape" href={objLink.link}>
-                  {objLink.icon}
-                  <span>{objLink.text}</span>
-                </a>
-              </li>
+              <NavLink
+                className="button-shape nav-link"
+                to={element.link}
+                key={id}
+              >
+                {element.icon}
+                <span>{element.text}</span>
+              </NavLink>
             );
           })}
         </ul>

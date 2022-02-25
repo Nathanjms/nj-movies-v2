@@ -153,3 +153,8 @@
     display: none !important;
   }
 }
+
+.nav-link.active {
+    color: #fff;
+    background: var(--primary);
+  }

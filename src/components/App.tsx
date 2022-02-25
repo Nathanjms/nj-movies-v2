@@ -1,25 +1,21 @@
 import React from "react";
 import "../css/App.css";
 import NavBar from "./Global/Navbar";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import NotFound from "./Global/NotFound";
+
 
 function App() {
   return (
-    <div className="App">
-      <NavBar />
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<NavBar />} />
+        <Route
+          path="*"
+          element={<NavBar />}
+        />
+      </Routes>
+    </Router>
   );
 }
 

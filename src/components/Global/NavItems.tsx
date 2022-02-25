@@ -1,29 +1,35 @@
 import { FaHome, FaMusic, FaUser, FaUserGraduate } from "react-icons/fa";
 import { GiProgression } from "react-icons/gi";
 
-const navItems = [
+interface navItemsProps {
+  link: string;
+  text: string;
+  icon: JSX.Element;
+}
+
+const navItems: navItemsProps[] = [
   {
-    link: "#home",
+    link: "/",
     text: "Home",
     icon: <FaHome />,
   },
   {
-    link: "#about",
+    link: "/about",
     text: "About",
     icon: <FaUser />,
   },
   {
-    link: "#skills",
+    link: "/skills",
     text: "Skills",
     icon: <GiProgression />,
   },
   {
-    link: "#education",
+    link: "/education",
     text: "Education",
     icon: <FaUserGraduate />,
   },
   {
-    link: "#music",
+    link: "/music",
     text: "Music",
     icon: <FaMusic />,
   },
