@@ -1,9 +1,11 @@
-import React from 'react';
-import '../css/App.css';
+import React from "react";
+import "../css/App.css";
+import NavBar from "./Global/Navbar";
 
 function App() {
   return (
     <div className="App">
+      <NavBar />
       <header className="App-header">
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
