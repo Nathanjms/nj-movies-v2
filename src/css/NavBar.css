@@ -1,0 +1,135 @@
+/*--------------------------------------------------------------
+# NavBar Container
+--------------------------------------------------------------*/
+
+.navBar-container {
+  display: flex;
+  position: fixed;
+  z-index: 9997;
+  max-height: 95%;
+  overflow-y: auto;
+  padding: 1.5em;
+}
+
+@media (min-width: 768px), (orientation: landscape) {
+  .navBar-container {
+    top: 0;
+    left: 0;
+  }
+}
+
+@media (max-width: 767px) and (orientation: portrait) {
+  .navBar-container {
+    bottom: 0;
+    right: 0;
+  }
+}
+
+/*--------------------------------------------------------------
+# NavBar
+--------------------------------------------------------------*/
+
+.navBar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+@media (min-width: 768px), (orientation: landscape) {
+  .navBar {
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    align-items: flex-start;
+  }
+}
+
+.navBar .nav-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.navBar .nav-link i {
+  font-size: 20px;
+}
+
+.navBtn {
+  color: var(--dark2);
+  padding: 10px 20px;
+  transition: 0.3s;
+  font-size: 15px;
+  border-radius: 20px;
+  background: #f2f3f5;
+  height: 56px;
+  width: 100%;
+  overflow: hidden;
+  width: 56px;
+}
+
+.navBar .nav-link .nav-text {
+  padding: 0 5px 0 7px;
+  color: var(--dark2);
+}
+
+/* Make text on hover/active be white */
+.navBar .nav-link:hover .nav-text,
+.navBar .nav-link.active .nav-text {
+  color: #fff;
+}
+
+.navBar .nav-link:hover,
+.navBar .nav-link.active,
+.navBar .toggleNavBtn.active {
+  color: #fff;
+  background: var(--primary);
+  font-weight: normal;
+}
+
+.navBar .nav-link:hover {
+  width: 100%;
+}
+
+.navBar .webNav {
+  padding-left: 0;
+  margin-block: 1rem;
+}
+
+.toggleBtnContainer {
+  padding-left: 0;
+}
+
+.fadeIn {
+  animation: fadeIn ease 0.3s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.navBar > .webNav .nav-link {
+  margin-bottom: 5px;
+  width: 100%;
+}
+.navBar > .webNav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.hide-nav {
+  display: none !important;
+}
+
+.button-logos {
+  color: white;
+  background-color: var(--primary);
+}
+
+.navBar .nav-link .nav-text {
+  display: block;
+}
