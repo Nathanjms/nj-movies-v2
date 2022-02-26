@@ -1,5 +1,5 @@
 import React, { ReactElement, useReducer } from "react";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import navItems from "./NavItems";
 import { NavLink } from "react-router-dom";
 import "../../css/NavBar.css";
@@ -27,7 +27,9 @@ const NavBar: React.FC<{}> = (): ReactElement => {
   return (
     <header className="navBar-container">
       <nav className="navBar">
-        <ul className={hideNav ? "links hide-nav" : "links"}>
+        <ul
+          className={hideNav ? "webNav links hide-nav" : "webNav links fadeIn"}
+        >
           {navItems.map((element, id) => {
             return (
               <NavLink
@@ -40,6 +42,15 @@ const NavBar: React.FC<{}> = (): ReactElement => {
               </NavLink>
             );
           })}
+          {/*} TODO: Dynamic signin/out buttons: */}
+          <NavLink className="button-shape nav-link" to="/signin">
+            <FaSignInAlt />
+            <span>Sign In</span>
+          </NavLink>
+          <NavLink className="button-shape nav-link" to="/signout">
+            <FaSignOutAlt />
+            <span>Sign Out</span>
+          </NavLink>
         </ul>
         <MobileToggleBtn />
       </nav>

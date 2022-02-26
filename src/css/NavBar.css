@@ -19,7 +19,7 @@
 @media (max-width: 767px) {
   .navBar-container {
     justify-content: space-evenly;
-    flex-direction: row;
+    flex-direction: row-reverse;
     right: 0;
   }
 }
@@ -133,28 +133,64 @@
   .mobile-button {
     display: none;
   }
+  .authNav {
+    display: none;
+  }
 }
 
 @media (max-width: 767px) {
-  .navBar a {
+  .webNav a {
     margin-bottom: 5px;
   }
-  .navBar ul {
+  .webNav {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     margin-bottom: 1rem;
   }
-  .navBar a span {
-    display: none;
-    color: #fff;
-  }
   .hide-nav {
     display: none !important;
   }
-}
 
-.nav-link.active {
+  .webNav a {
+    width: 100%;
+  }
+
+  .button-logos {
+    color: white;
+    background-color: var(--primary);
+  }
+
+  .nav-link.active {
     color: #fff;
     background: var(--primary);
   }
+
+  .nav-link.active span {
+    color: #fff;
+  }
+
+  .navBar a span,
+  .navBar li > a span {
+    display: block;
+  }
+}
+
+.navBar .nav-link.active {
+  color: #fff;
+  background: var(--primary);
+  font-weight: normal;
+}
+
+.fadeIn {
+  animation: fadeIn ease 0.5s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
