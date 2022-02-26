@@ -3,19 +3,18 @@ import { FaBars, FaDoorOpen, FaSignInAlt } from "react-icons/fa";
 import navItems from "./NavItems";
 import { NavLink } from "react-router-dom";
 import "../../css/NavBar.css";
-import { Button } from "react-bootstrap";
 
 const NavBar: React.FC<{}> = (): ReactElement => {
   const [expanded, setExpanded] = useState(false);
 
   const ToggleBtn = (): ReactElement => {
     return (
-      <Button
+      <button type="button"
         onClick={() => setExpanded(!expanded)}
-        className="btn navBtn toggleNavBtn"
+        className={"btn navBtn toggleNavBtn" + (expanded ? " active" : "")}
       >
         <FaBars />
-      </Button>
+      </button>
     );
   };
 

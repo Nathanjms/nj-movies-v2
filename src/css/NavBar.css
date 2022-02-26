@@ -79,7 +79,8 @@
 }
 
 .navBar .nav-link:hover,
-.navBar .nav-link.active {
+.navBar .nav-link.active,
+.navBar .toggleNavBtn.active {
   color: #fff;
   background: var(--primary);
   font-weight: normal;
