@@ -126,23 +126,16 @@ body {
 }
 
 /*--------------------------------------------------------------
-# NavBar
+# Login
 --------------------------------------------------------------*/
 
-.bg-grey {
-  border-bottom: 1px solid var(--dark);
-  background-color: var(--dark2) !important;
+#login .card-body {
+  color: #282c34;
 }
 
-.nav-item {
-  padding: 0.5rem 1rem;
+.inline-loading {
+  color: var(--primary);
+  display: inline-block;
 }
 
-.navbar-dark .navbar-nav .nav-link,
-.navbar-dark .navbar-nav .nav-item {
-  color: white;
-}
 
-.nav-link.active {
-  font-weight: bold;
-}

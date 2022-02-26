@@ -3,6 +3,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Auth/AuthContext";
 
+// TODO: Use this page to get the user info and be a router for all movies?
 interface MoviesProps {}
 
 export interface User {
@@ -39,6 +40,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
         setUser(result.data);
       } catch (err) {
         console.dir(err);
+      } finally {
       }
     };
 
