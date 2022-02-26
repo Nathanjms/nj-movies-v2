@@ -6,7 +6,7 @@ interface NotFoundProps {}
 export const NotFound: React.FC<NotFoundProps> = (): ReactElement => {
   return (
     <React.Fragment>
-      <Container id="notFound" className="section">
+      <Container className="section">
         <Row className="pt-5">
           <h2>Movies</h2>
         </Row>
