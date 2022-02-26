@@ -7,6 +7,9 @@ import Header from "./Global/Header";
 import Footer from "./Global/Footer";
 import { Container } from "react-bootstrap";
 import Movies from "./Movies/Movies";
+import Watched from "./Movies/Watched";
+import Random from "./Movies/Random";
+import About from "./Movies/About";
 
 function App() {
   return (
@@ -18,7 +21,9 @@ function App() {
             <NavBar />
             <Routes>
               <Route path="/" element={<Movies />} />
-              <Route path="/test" element={<NotFound />} />
+              <Route path="/watched" element={<Watched />} />
+              <Route path="/random" element={<Random />} />
+              <Route path="/about" element={<About />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Router>
