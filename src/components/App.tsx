@@ -15,10 +15,10 @@ function App() {
   return (
     <>
       <Header />
-      <Container>
-        <div id="body" className="section">
-          <Router>
-            <NavBar />
+      <Router>
+        <NavBar />
+        <Container>
+          <div id="body" className="section">
             <Routes>
               <Route path="/" element={<Movies />} />
               <Route path="/watched" element={<Watched />} />
@@ -26,9 +26,9 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </Router>
-        </div>
-      </Container>
+          </div>
+        </Container>
+      </Router>
       <Footer />
     </>
   );

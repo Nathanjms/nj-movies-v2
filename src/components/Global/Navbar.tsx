@@ -8,11 +8,11 @@ import { Button } from "react-bootstrap";
 const NavBar: React.FC<{}> = (): ReactElement => {
   const [expanded, setExpanded] = useState(false);
 
-  const MobileToggleBtn = (): ReactElement => {
+  const ToggleBtn = (): ReactElement => {
     return (
       <Button
         onClick={() => setExpanded(!expanded)}
-        className="btn navBtn mobileBtn"
+        className="btn navBtn toggleNavBtn"
       >
         <FaBars />
       </Button>
@@ -22,9 +22,7 @@ const NavBar: React.FC<{}> = (): ReactElement => {
   return (
     <header className="navBar-container">
       <nav className="navBar">
-        <ul
-          className={"webNav links" + (expanded ? " fadeIn" : " hide-nav")}
-        >
+        <ul className={"webNav links" + (expanded ? " fadeIn" : " hide-nav")}>
           {navItems.map((element, id) => {
             return (
               <NavLink
@@ -56,7 +54,9 @@ const NavBar: React.FC<{}> = (): ReactElement => {
             <span className="nav-text">Sign Out</span>
           </NavLink>
         </ul>
-        <MobileToggleBtn />
+        <ul className="toggleBtnContainer">
+          <ToggleBtn />
+        </ul>
       </nav>
     </header>
   );

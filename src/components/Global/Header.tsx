@@ -7,8 +7,10 @@ function Home() {
       <Container>
         <Row>
           <Col>
-            <h1>Nathan James</h1>
-            <p>nathan@nathanjms.co.uk</p>
+            <span>
+              <a href="https://www.nathanjms.co.uk">www.nathanjms.co.uk</a>
+            </span>
+            <h1>Movies</h1>
           </Col>
         </Row>
       </Container>
