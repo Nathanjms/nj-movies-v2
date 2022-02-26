@@ -1,21 +1,21 @@
-import React, { ReactElement, useReducer } from "react";
+import React, { ReactElement, useState } from "react";
 import { FaBars, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import navItems from "./NavItems";
 import { NavLink } from "react-router-dom";
 import "../../css/NavBar.css";
 
 const NavBar: React.FC<{}> = (): ReactElement => {
-  const [hideNav, toggle] = useReducer((hideNav) => !hideNav, true);
+  const [expanded, setExpanded] = useState(false);
 
   const MobileToggleBtn = (): ReactElement => {
     return (
-      <li onClick={toggle}>
+      <li onClick={() => setExpanded(!expanded)}>
         {" "}
         <button
           className={
-            hideNav
-              ? "btn button-shape mobile-button"
-              : "btn button-shape mobile-button btn-clicked"
+            expanded
+              ? "btn button-shape mobile-button btn-clicked"
+              : "btn button-shape mobile-button"
           }
         >
           <FaBars />
@@ -28,7 +28,7 @@ const NavBar: React.FC<{}> = (): ReactElement => {
     <header className="navBar-container">
       <nav className="navBar">
         <ul
-          className={hideNav ? "webNav links hide-nav" : "webNav links fadeIn"}
+          className={!expanded ? "webNav links hide-nav" : "webNav links fadeIn"}
         >
           {navItems.map((element, id) => {
             return (
@@ -36,6 +36,7 @@ const NavBar: React.FC<{}> = (): ReactElement => {
                 className="button-shape nav-link"
                 to={element.link}
                 key={id}
+                onClick={() => (setExpanded(false))}
               >
                 {element.icon}
                 <span>{element.text}</span>
