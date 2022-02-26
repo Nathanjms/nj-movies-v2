@@ -29,6 +29,7 @@ export default function Login() {
         return;
       }
     } catch (error: any) {
+      setLoading(false);
       if (error?.response?.data?.message) {
         setError(error.response.data.message);
         return;
@@ -38,7 +39,6 @@ export default function Login() {
         return;
       }
       setError("Oops! Invalid Response from API");
-      setLoading(false);
     }
   }
 
