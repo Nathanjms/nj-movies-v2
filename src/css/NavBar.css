@@ -8,21 +8,20 @@
   z-index: 9997;
   max-height: 95%;
   overflow-y: scroll;
+  padding: 1.5em;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px), (orientation: landscape) {
   .navBar-container {
     top: 0;
     left: 0;
-    padding: 2em;
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 767px) and (orientation: portrait) {
   .navBar-container {
     bottom: 0;
     right: 0;
-    padding: 1em;
   }
 }
 
@@ -37,7 +36,7 @@
   align-items: flex-end;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px), (orientation: landscape) {
   .navBar {
     flex-direction: column-reverse;
     justify-content: flex-end;
