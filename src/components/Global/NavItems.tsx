@@ -1,4 +1,5 @@
-import { FaFilm, FaQuestion, FaRandom, FaStopwatch } from "react-icons/fa";
+import { FaClipboardCheck, FaQuestion, FaRandom } from "react-icons/fa";
+import { GiPopcorn } from "react-icons/gi";
 
 interface navItemsProps {
   link: string;
@@ -10,12 +11,12 @@ const navItems: navItemsProps[] = [
   {
     link: "/",
     text: "Movies",
-    icon: <FaFilm />,
+    icon: <GiPopcorn />,
   },
   {
     link: "/watched",
     text: "Watched Movies",
-    icon: <FaStopwatch />,
+    icon: <FaClipboardCheck />,
   },
   {
     link: "/random",
