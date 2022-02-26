@@ -1,3 +1,7 @@
+/*--------------------------------------------------------------
+# NavBar Container
+--------------------------------------------------------------*/
+
 .navBar-container {
   display: flex;
   position: fixed;
@@ -9,8 +13,7 @@
 
 @media (min-width: 768px) {
   .navBar-container {
-    justify-content: center;
-    flex-direction: column;
+    align-items: center;
     top: 0;
     left: 0;
   }
@@ -18,86 +21,32 @@
 
 @media (max-width: 767px) {
   .navBar-container {
-    justify-content: space-evenly;
-    flex-direction: row-reverse;
     right: 0;
   }
 }
 
+/*--------------------------------------------------------------
+# NavBar
+--------------------------------------------------------------*/
+
 .navBar {
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
 
-.navBar * {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.navBar > ul > li {
-  position: relative;
-  white-space: nowrap;
-  border-color: var(--dark);
-  display: inline;
-}
-
-.navBar a {
+.navBar .nav-link {
   display: flex;
   align-items: center;
   text-decoration: none;
 }
 
-.navBar a i {
+.navBar .nav-link i {
   font-size: 20px;
 }
 
-.navBar a span {
-  padding: 0 5px 0 7px;
-  color: #45505b;
-}
-
-.navBar a:hover,
-.navBar .active > a,
-.navBar li:hover > a {
-  color: #fff;
-  background: var(--primary);
-}
-
-.navBar a:hover span,
-.navBar .active > a span,
-.navBar li:hover > a span {
-  color: #fff;
-}
-
-.navBar a:hover,
-.navBar li:hover > a {
-  width: 100%;
-  color: #fff;
-}
-
-.button-logos {
-  color: #45505b;
-  padding: 8px 10px 8px 10px;
-  border-radius: 10px;
-  background: #f2f3f5;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.button-logos:hover {
-  color: white;
-  background-color: var(--primary);
-}
-
-.button-logos:hover > svg {
-  color: white !important;
-}
-
-.button-shape {
-  color: #45505b;
+.navBtn {
+  color: var(--dark2);
   padding: 10px 20px;
   transition: 0.3s;
   font-size: 15px;
@@ -109,81 +58,59 @@
   width: 56px;
 }
 
-.btn-clicked {
-  background-color: var(--primary);
-  color: #fff !important;
+.navBar .nav-link .nav-text {
+  padding: 0 5px 0 7px;
+  color: var(--dark2);
 }
 
-.mobile-button {
-  margin-bottom: 1rem;
+/* Make text on hover/active be white */
+.navBar .nav-link:hover .nav-text,
+.navBar .nav-link.active .nav-text {
+  color: #fff;
 }
 
-@media (min-width: 768px) {
-  .navBar a {
-    margin-bottom: 20px;
-  }
-  .navBar a span {
-    display: none;
-    color: #fff;
-  }
-  .navBar a:hover span,
-  .navBar li:hover > a span {
-    display: block;
-  }
-  .mobile-button {
-    display: none;
-  }
-  .authNav {
-    display: none;
-  }
-}
-
-@media (max-width: 767px) {
-  .webNav a {
-    margin-bottom: 5px;
-  }
-  .webNav {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin-bottom: 1rem;
-  }
-  .hide-nav {
-    display: none !important;
-  }
-
-  .webNav a {
-    width: 100%;
-  }
-
-  .button-logos {
-    color: white;
-    background-color: var(--primary);
-  }
-
-  .nav-link.active {
-    color: #fff;
-    background: var(--primary);
-  }
-
-  .nav-link.active span {
-    color: #fff;
-  }
-
-  .navBar a span,
-  .navBar li > a span {
-    display: block;
-  }
-}
-
+.navBar .nav-link:hover,
 .navBar .nav-link.active {
   color: #fff;
   background: var(--primary);
   font-weight: normal;
 }
 
+.navBar .nav-link:hover {
+  width: 100%;
+}
+
+.navBar .webNav {
+  padding-left: 0;
+}
+
+/*--------------------------------------------------------------
+# NavBar - Desktop
+--------------------------------------------------------------*/
+
+@media (min-width: 768px) {
+  .navBar .nav-link {
+    margin-bottom: 20px;
+  }
+  .navBar .nav-link .nav-text {
+    display: none;
+    color: #fff;
+    white-space: nowrap;
+  }
+  .navBar .nav-link:hover .nav-text {
+    display: block;
+  }
+  .mobileBtn {
+    display: none;
+  }
+}
+
+/*--------------------------------------------------------------
+# NavBar - Mobile
+--------------------------------------------------------------*/
+
 .fadeIn {
-  animation: fadeIn ease 0.5s;
+  animation: fadeIn ease 0.3s;
 }
 
 @keyframes fadeIn {
@@ -192,5 +119,33 @@
   }
   100% {
     opacity: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  .mobileBtn {
+    margin-bottom: 1rem;
+  }
+
+  .navBar > .webNav .nav-link {
+    margin-bottom: 5px;
+    width: 100%;
+  }
+  .navBar > .webNav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .hide-nav {
+    display: none !important;
+  }
+
+  .button-logos {
+    color: white;
+    background-color: var(--primary);
+  }
+
+  .navBar .nav-link .nav-text {
+    display: block;
   }
 }
