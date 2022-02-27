@@ -2,6 +2,7 @@ import React, { ReactElement, useContext, useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Auth/AuthContext";
+import { AuthenticatedRequest } from "../Global/apiCommunication";
 
 interface MoviesProps {}
 
@@ -10,45 +11,52 @@ export interface User {
   groups: { groupId?: number }[];
 }
 
+interface Movie {
+  id: number;
+  title: string;
+  tmdb_id: string;
+  poster_path: string;
+  rating: number;
+  seen: boolean;
+  group_id: number | null;
+  created_by: number;
+}
+
 export const Movies: React.FC<MoviesProps> = (): ReactElement => {
   const authContext = useContext(AuthContext);
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [movies, setMovies] = useState<Movie[]>([]);
 
-  function delay(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
+  // TODO: Potentially move this to be more generic and apply to more movie containers
   useEffect(() => {
-    if (!authContext || !authContext.token) {
+    if (!authContext.token) {
       navigate("/signin");
       return;
     }
 
-    // Fake an async axios request
-    const getUserInfo = async () => {
+    const buildMovies = async () => {
       try {
-        let result = null;
-        await delay(1000);
-        result = {
-          data: {
-            name: "Nathanjms",
-            groups: [{ groupId: 1 }],
-          },
+        let params = {
+          page: 1,
+          perPage: 10,
+          groupId: null,
         };
-        setUser(result.data);
-      } catch (err) {
-        console.dir(err);
+        const result = await AuthenticatedRequest(authContext.token ?? "").get(
+          "/api/movies",
+          { params: params }
+        );
+        setMovies(result.data.movies);
+      } catch (error) {
+        console.dir(error);
       }
     };
-
-    getUserInfo();
-
-    return;
+    buildMovies();
+    setLoading(false);
   }, [navigate, authContext]);
 
-  if (!user) {
-    return <h3>Loading...</h3>;
+  if (loading) {
+    return <h2>Loading...</h2>;
   }
 
   return (
@@ -56,11 +64,13 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
       <Container className="section">
         <Row className="pt-5">
           <h2>Movies</h2>
-          <h4>Hello, {user.name} </h4>
+          <h4>Hello, {authContext.user} </h4>
         </Row>
         <Row>
           <Col xs={12}>
-            <p>Moviessss</p>
+            {movies.map((movie) => {
+              return <p>{movie.title}</p>;
+            })}
           </Col>
         </Row>
       </Container>
