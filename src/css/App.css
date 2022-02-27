@@ -73,6 +73,7 @@ body {
 
 #body {
   min-height: 80vh;
+  text-align: left;
 }
 
 .App-link {

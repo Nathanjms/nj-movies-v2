@@ -5,12 +5,6 @@ import { AuthContext } from "../Auth/AuthContext";
 import { AuthenticatedRequest } from "../Global/apiCommunication";
 
 interface MoviesProps {}
-
-export interface User {
-  name: string;
-  groups: { groupId?: number }[];
-}
-
 interface Movie {
   id: number;
   title: string;

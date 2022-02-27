@@ -11,7 +11,7 @@ import Demo from "./Movies/Demo";
 import Watched from "./Movies/Watched";
 import Random from "./Movies/Random";
 import About from "./Movies/About";
-import { AuthContext } from "./Auth/AuthContext";
+import { AuthContext, UserMovieGroup } from "./Auth/AuthContext";
 import Login from "./Auth/Login";
 import { AuthenticatedRequest } from "./Global/apiCommunication";
 
@@ -20,6 +20,9 @@ function App() {
     localStorage.getItem("token") // set Token if one is in local storage
   );
   const [user, setUser] = useState<string | null>(null);
+  const [userMovieGroup, setUserMovieGroup] = useState<UserMovieGroup | null>(
+    null
+  );
 
   useEffect(() => {
     if (!token) {
@@ -39,12 +42,14 @@ function App() {
   }, [token]);
 
   return (
-    <AuthContext.Provider value={{ token, setToken, user }}>
+    <AuthContext.Provider
+      value={{ token, setToken, user, userMovieGroup, setUserMovieGroup }}
+    >
       <Header />
       <Router>
         <NavBar />
         <Container>
-          <div id="body" className="section">
+          <div id="body">
             <Routes>
               <Route path="/" element={<Movies />} />
               <Route path="/demo" element={<Demo />} />

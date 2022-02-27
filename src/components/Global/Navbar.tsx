@@ -1,11 +1,13 @@
 import React, { ReactElement, useState } from "react";
 import { FaBars, FaDoorOpen, FaSignInAlt } from "react-icons/fa";
 import navItems from "./NavItems";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../../css/NavBar.css";
 
 const NavBar: React.FC<{}> = (): ReactElement => {
   const [expanded, setExpanded] = useState(false);
+  const navigate = useNavigate();
+
 
   const ToggleBtn = (): ReactElement => {
     return (
@@ -17,6 +19,16 @@ const NavBar: React.FC<{}> = (): ReactElement => {
       </button>
     );
   };
+
+  // const handleLogout = async () => {
+  //   localStorage.clear();
+  //   try {
+  //     await AuthRequest.post("/api/logout");
+  //   } catch (err) {
+  //   } finally {
+  //     navigate("/login");
+  //   }
+  // }
 
   return (
     <header className="navBar-container">
