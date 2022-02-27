@@ -56,14 +56,13 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
           return;
         }
         if (error?.message) {
-          setError(error.message);
+          navigate("/signin");
           return;
         }
-      } finally {
-        setLoading(false);
       }
     };
     buildMovies();
+    setLoading(false);
     setLoading(false);
   }, [navigate, authContext]);
 
