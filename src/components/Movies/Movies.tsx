@@ -1,5 +1,5 @@
 import React, { ReactElement, useContext, useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Alert, Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Auth/AuthContext";
 import { AuthenticatedRequest } from "../Global/apiCommunication";
@@ -27,8 +27,9 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [error, setError] = useState<string>("");
 
-  // TODO: Potentially move this to be more generic and apply to more movie containers
+  // TODO: Move this to be more generic and apply to all components requiring auth
   useEffect(() => {
     if (!authContext.token) {
       navigate("/signin");
@@ -36,19 +37,30 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
     }
 
     const buildMovies = async () => {
+      setError("");
+      setLoading(true);
       try {
         let params = {
           page: 1,
           perPage: 10,
-          groupId: null,
+          groupId: 1,
         };
         const result = await AuthenticatedRequest(authContext.token ?? "").get(
           "/api/movies",
           { params: params }
         );
         setMovies(result.data.movies);
-      } catch (error) {
-        console.dir(error);
+      } catch (error: any) {
+        if (error?.response?.data?.message) {
+          setError(error.response.data.message);
+          return;
+        }
+        if (error?.message) {
+          setError(error.message);
+          return;
+        }
+      } finally {
+        setLoading(false);
       }
     };
     buildMovies();
@@ -62,14 +74,15 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
   return (
     <React.Fragment>
       <Container className="section">
-        <Row className="pt-5">
+        <Row className="pt-1">
+          {error && <Alert variant="danger">{error}</Alert>}
           <h2>Movies</h2>
           <h4>Hello, {authContext.user} </h4>
         </Row>
         <Row>
           <Col xs={12}>
             {movies.map((movie) => {
-              return <p>{movie.title}</p>;
+              return <p key={movie.id}>{movie.title}</p>;
             })}
           </Col>
         </Row>
