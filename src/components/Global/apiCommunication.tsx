@@ -12,10 +12,3 @@ export const AuthenticatedRequest = (userToken: string) => {
     },
   });
 };
-
-export const login = async (email: string, password: string) => {
-  return await axios.post(`${baseURL}/api/login`, {
-    email: email,
-    password: password,
-  });
-};
