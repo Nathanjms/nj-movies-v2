@@ -17,14 +17,14 @@ export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState("");
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false);
   const { setToken } = useContext(AuthContext);
   const navigate = useNavigate();
   const { state } = useLocation() as any;
 
   const AlertMessage = (): ReactElement | null => {
-    setShowAlert(true);
+    if (!showAlert) setShowAlert(true);
     let message = state?.message;
     let type = state?.type ? state.type : "info";
     if (!message) {
@@ -80,7 +80,7 @@ export default function Login() {
           {showAlert && <AlertMessage />}
         </Col>
       </Row>
-      <Row className="align-items-center">
+      <Row className="pt-3">
         <Col xs={12}>
           <div className="w-100" style={{ maxWidth: "400px", margin: "auto" }}>
             <Card className="text-black">
