@@ -4,7 +4,7 @@ import navItems from "./NavItems";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../../css/NavBar.css";
 import { AuthContext } from "../Auth/AuthContext";
-import { NavItem } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 
 const NavBar: React.FC<{}> = (): ReactElement => {
@@ -37,33 +37,6 @@ const NavBar: React.FC<{}> = (): ReactElement => {
     navigate("/login", { state: { message: "Signed Out Successfully" } });
   };
 
-  const LoginOrLogout = (): ReactElement => {
-    if (!user) {
-      return (
-        <NavLink
-          onClick={() => setExpanded(false)}
-          className={
-            "navBtn nav-link" + (currentLocation("/login") ? " disabled" : "")
-          }
-          to="/login"
-        >
-          <FaSignInAlt />
-          <span className="nav-text">Sign In</span>
-        </NavLink>
-      );
-    }
-    return (
-      <NavItem
-        onClick={() => handleLogout()}
-        className="navBtn nav-link"
-        style={{ cursor: "pointer" }}
-      >
-        <FaDoorOpen />
-        <span className="nav-text">Sign Out</span>
-      </NavItem>
-    );
-  };
-
   return (
     <header className="navBar-container">
       <nav className="navBar">
@@ -84,8 +57,28 @@ const NavBar: React.FC<{}> = (): ReactElement => {
               </NavLink>
             );
           })}
-          {/*} TODO: Dynamic signin/out buttons based on auth state: */}
-          <LoginOrLogout />
+          {!user ? (
+            <NavLink
+              onClick={() => setExpanded(false)}
+              className={
+                "navBtn nav-link" +
+                (currentLocation("/login") ? " disabled" : "")
+              }
+              to="/login"
+            >
+              <FaSignInAlt />
+              <span className="nav-text">Sign In</span>
+            </NavLink>
+          ) : (
+            <Button
+              onClick={() => handleLogout()}
+              className="navBtn nav-link"
+              style={{ cursor: "pointer" }}
+            >
+              <FaDoorOpen />
+              <span className="nav-text">Sign Out</span>
+            </Button>
+          )}
         </ul>
         <ul className="toggleBtnContainer">
           <ToggleBtn />
