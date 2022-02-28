@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React, { ReactElement, useContext } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { AuthContext } from "../Auth/AuthContext";
 
-const UserGreeting = (userName: string | null): JSX.Element | null => {
+const UserGreeting = (userName: string | null): ReactElement | null => {
   if (!userName) {
     return null;
   }

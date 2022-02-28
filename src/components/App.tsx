@@ -43,7 +43,7 @@ function App() {
 
   return (
     <AuthContext.Provider
-      value={{ token, setToken, user, userMovieGroup, setUserMovieGroup }}
+      value={{ token, setToken, user, setUser, userMovieGroup, setUserMovieGroup }}
     >
       <Header />
       <Router>
@@ -56,7 +56,7 @@ function App() {
               <Route path="/watched" element={<Watched />} />
               <Route path="/random" element={<Random />} />
               <Route path="/about" element={<About />} />
-              <Route path="/signin" element={<Login />} />
+              <Route path="/login" element={<Login />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

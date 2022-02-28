@@ -6,8 +6,9 @@ export interface UserMovieGroup {
 }
 interface AuthContextProps {
   token: string | null;
-  setToken: (state: string) => void;
+  setToken: (state: string | null) => void;
   user: string | null;
+  setUser: (state: string | null) => void;
   userMovieGroup: UserMovieGroup | null;
   setUserMovieGroup: (state: UserMovieGroup | null) => void;
 }
@@ -16,6 +17,7 @@ const AuthContextDefaults = {
   token: null,
   setToken: () => {},
   user: null,
+  setUser: () => {},
   userMovieGroup: null,
   setUserMovieGroup: () => {},
 };
