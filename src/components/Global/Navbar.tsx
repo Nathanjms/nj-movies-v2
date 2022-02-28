@@ -1,17 +1,20 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useContext, useState } from "react";
 import { FaBars, FaDoorOpen, FaSignInAlt } from "react-icons/fa";
 import navItems from "./NavItems";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../../css/NavBar.css";
+import { AuthContext } from "../Auth/AuthContext";
+import { NavItem } from "react-bootstrap";
 
 const NavBar: React.FC<{}> = (): ReactElement => {
   const [expanded, setExpanded] = useState(false);
+  const { user, setUser, setToken } = useContext(AuthContext);
   const navigate = useNavigate();
-
 
   const ToggleBtn = (): ReactElement => {
     return (
-      <button type="button"
+      <button
+        type="button"
         onClick={() => setExpanded(!expanded)}
         className={"btn navBtn toggleNavBtn" + (expanded ? " active" : "")}
       >
@@ -20,15 +23,38 @@ const NavBar: React.FC<{}> = (): ReactElement => {
     );
   };
 
-  // const handleLogout = async () => {
-  //   localStorage.clear();
-  //   try {
-  //     await AuthRequest.post("/api/logout");
-  //   } catch (err) {
-  //   } finally {
-  //     navigate("/login");
-  //   }
-  // }
+  const handleLogout = async () => {
+    localStorage.clear();
+    setUser(null);
+    setToken(null);
+    setExpanded(false);
+    navigate("/login", { state: { message: "Signed Out Successfully" } });
+  };
+
+  const LoginOrLogout = (): ReactElement => {
+    if (!user) {
+      return (
+        <NavLink
+          onClick={() => setExpanded(false)}
+          className="navBtn nav-link"
+          to="/login"
+        >
+          <FaSignInAlt />
+          <span className="nav-text">Sign In</span>
+        </NavLink>
+      );
+    }
+    return (
+      <NavItem
+        onClick={() => handleLogout()}
+        className="navBtn nav-link"
+        style={{ cursor: "pointer" }}
+      >
+        <FaDoorOpen />
+        <span className="nav-text">Sign Out</span>
+      </NavItem>
+    );
+  };
 
   return (
     <header className="navBar-container">
@@ -48,22 +74,7 @@ const NavBar: React.FC<{}> = (): ReactElement => {
             );
           })}
           {/*} TODO: Dynamic signin/out buttons based on auth state: */}
-          <NavLink
-            onClick={() => setExpanded(false)}
-            className="navBtn nav-link"
-            to="/signin"
-          >
-            <FaSignInAlt />
-            <span className="nav-text">Sign In</span>
-          </NavLink>
-          <NavLink
-            onClick={() => setExpanded(false)}
-            className="navBtn nav-link"
-            to="/signout"
-          >
-            <FaDoorOpen />
-            <span className="nav-text">Sign Out</span>
-          </NavLink>
+          <LoginOrLogout />
         </ul>
         <ul className="toggleBtnContainer">
           <ToggleBtn />
