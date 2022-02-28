@@ -34,7 +34,7 @@ function App() {
         const result = await AuthenticatedRequest(token).get("/api/users");
         setUser(result.data.name);
       } catch (error) {
-        setUser("N/A");
+        setUser(null);
       }
     };
 

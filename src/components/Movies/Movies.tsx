@@ -26,7 +26,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
   // TODO: Move this to be more generic and apply to all components requiring auth
   useEffect(() => {
     if (!authContext.token) {
-      navigate("/signin");
+      navigate("/login");
       return;
     }
 
@@ -50,7 +50,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
           return;
         }
         if (error?.message) {
-          navigate("/signin");
+          navigate("/login");
           return;
         }
       }
