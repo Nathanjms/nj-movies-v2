@@ -5,11 +5,17 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "../../css/NavBar.css";
 import { AuthContext } from "../Auth/AuthContext";
 import { NavItem } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
 
 const NavBar: React.FC<{}> = (): ReactElement => {
   const [expanded, setExpanded] = useState(false);
   const { user, setUser, setToken } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const currentLocation = (uri: string): boolean => {
+    return location.pathname === uri;
+  };
 
   const ToggleBtn = (): ReactElement => {
     return (
@@ -36,7 +42,9 @@ const NavBar: React.FC<{}> = (): ReactElement => {
       return (
         <NavLink
           onClick={() => setExpanded(false)}
-          className="navBtn nav-link"
+          className={
+            "navBtn nav-link" + (currentLocation("/login") ? " disabled" : "")
+          }
           to="/login"
         >
           <FaSignInAlt />
@@ -63,7 +71,10 @@ const NavBar: React.FC<{}> = (): ReactElement => {
           {navItems.map((element, id) => {
             return (
               <NavLink
-                className="navBtn nav-link"
+                className={
+                  "navBtn nav-link" +
+                  (currentLocation(element.link) ? " disabled" : "")
+                }
                 to={element.link}
                 key={id}
                 onClick={() => setExpanded(false)}
