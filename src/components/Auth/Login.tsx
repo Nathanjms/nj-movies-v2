@@ -43,7 +43,7 @@ export default function Login() {
       });
       if (response?.data?.token) {
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("expiry", JSON.stringify(response.data.expiresIn));
+        localStorage.setItem("expiry", JSON.stringify(response.data.expiryDate));
         setToken(response.data.token);
         navigate("/");
         return;
