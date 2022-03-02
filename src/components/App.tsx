@@ -16,9 +16,15 @@ import Login from "./Auth/Login";
 import { AuthenticatedRequest } from "./Global/apiCommunication";
 
 function App() {
-  const [token, setToken] = useState<string | null>(
-    localStorage.getItem("token") // set Token if one is in local storage
-  );
+  const handleTokenExpiry = (): string | null => {
+    let tokenVal = localStorage.getItem("token");
+    let expiry = localStorage.getItem("expiry");
+    if (tokenVal && expiry) {
+      tokenVal = Number(expiry) > new Date().valueOf() ? tokenVal : null;
+    }
+    return tokenVal;
+  };
+  const [token, setToken] = useState<string | null>(handleTokenExpiry());
   const [user, setUser] = useState<string | null>(null);
   const [userMovieGroup, setUserMovieGroup] = useState<UserMovieGroup | null>(
     null
