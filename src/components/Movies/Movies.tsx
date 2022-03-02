@@ -17,7 +17,7 @@ interface Movie {
 }
 
 export const Movies: React.FC<MoviesProps> = (): ReactElement => {
-  const authContext = useContext(AuthContext);
+  const {token, user} = useContext(AuthContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -25,7 +25,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
 
   // TODO: Move this to be more generic and apply to all components requiring auth
   useEffect(() => {
-    if (!authContext.token) {
+    if (!token) {
       navigate("/login");
       return;
     }
@@ -39,7 +39,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
           perPage: 10,
           groupId: 1,
         };
-        const result = await AuthenticatedRequest(authContext.token ?? "").get(
+        const result = await AuthenticatedRequest(token ?? "").get(
           "/api/movies",
           { params: params }
         );
@@ -58,7 +58,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
     buildMovies();
     setLoading(false);
     setLoading(false);
-  }, [navigate, authContext]);
+  }, [navigate, token]);
 
   if (loading) {
     return <h2>Loading...</h2>;
@@ -70,7 +70,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
         <Row className="pt-1">
           {error && <Alert variant="danger">{error}</Alert>}
           <h2>Movies</h2>
-          <h4>Hello, {authContext.user} </h4>
+          <h4>Hello, {user} </h4>
         </Row>
         <Row>
           <Col xs={12}>
