@@ -49,7 +49,14 @@ function App() {
 
   return (
     <AuthContext.Provider
-      value={{ token, setToken, user, setUser, userMovieGroup, setUserMovieGroup }}
+      value={{
+        token,
+        setToken,
+        user,
+        setUser,
+        userMovieGroup,
+        setUserMovieGroup,
+      }}
     >
       <Header />
       <Router>
