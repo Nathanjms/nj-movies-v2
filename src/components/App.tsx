@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "../css/App.css";
 import NavBar from "./Global/Navbar";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import NotFound from "./Global/NotFound";
 import Header from "./Global/Header";
 import Footer from "./Global/Footer";
@@ -11,11 +17,11 @@ import Demo from "./Movies/Demo";
 import Watched from "./Movies/Watched";
 import Random from "./Movies/Random";
 import About from "./Movies/About";
-import { AuthContext, UserMovieGroup } from "./Auth/AuthContext";
+import { AuthContext, useAuth, UserMovieGroup } from "./Auth/AuthContext";
 import Login from "./Auth/Login";
 import { AuthenticatedRequest } from "./Global/apiCommunication";
 
-function App() {
+function App(): JSX.Element {
   const handleTokenExpiry = (): string | null => {
     let tokenVal: string | null = null;
     let expiry = localStorage.getItem("expiry");
@@ -65,12 +71,33 @@ function App() {
         <Container>
           <div id="body">
             <Routes>
-              <Route path="/" element={<Movies />} />
-              <Route path="/demo" element={<Demo />} />
-              <Route path="/watched" element={<Watched />} />
-              <Route path="/random" element={<Random />} />
-              <Route path="/about" element={<About />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/about" element={<About />} />
+              <Route
+                path="/"
+                element={
+                  <RequireAuth>
+                    <Movies />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/watched"
+                element={
+                  <RequireAuth>
+                    <Watched />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/random"
+                element={
+                  <RequireAuth>
+                    <Random />
+                  </RequireAuth>
+                }
+              />
+              <Route path="/demo" element={<Demo />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
@@ -79,6 +106,17 @@ function App() {
       <Footer />
     </AuthContext.Provider>
   );
+}
+
+function RequireAuth({ children }: { children: JSX.Element }) {
+  let auth = useAuth();
+  let location = useLocation();
+
+  if (!auth.user) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
 }
 
 export default App;

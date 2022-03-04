@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 
 export interface UserMovieGroup {
   name: string;
@@ -23,3 +23,7 @@ const AuthContextDefaults = {
 };
 
 export const AuthContext = createContext<AuthContextProps>(AuthContextDefaults);
+
+export const useAuth = () => {
+  return useContext(AuthContext);
+}
