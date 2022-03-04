@@ -21,16 +21,25 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const { setToken } = useAuth();
   const navigate = useNavigate();
-  const { state } = useLocation() as any;
+  const location = useLocation() as any;
+  let from: string = location.state?.from?.pathname || "/";
 
   const AlertMessage = (): ReactElement | null => {
     if (!showAlert) setShowAlert(true);
-    let message = state?.message;
-    let type = state?.type ? state.type : "info";
+    let message: string | null = location?.state?.message || null;
+    let type: string = location?.state?.type || "info";
     if (!message) {
       return null;
     }
-    return <Alert variant={type} dismissible={true} onClose={() => setShowAlert(false)}>{message}</Alert>;
+    return (
+      <Alert
+        variant={type}
+        dismissible={true}
+        onClose={() => setShowAlert(false)}
+      >
+        {message}
+      </Alert>
+    );
   };
 
   async function login(email: string, password: string) {
@@ -43,9 +52,12 @@ export default function Login() {
       });
       if (response?.data?.token) {
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("expiry", JSON.stringify(response.data.expiryDate));
+        localStorage.setItem(
+          "expiry",
+          JSON.stringify(response.data.expiryDate)
+        );
         setToken(response.data.token);
-        navigate("/");
+        navigate(from, { replace: true }); // Return the user to where they came from (or "/" by default)
         return;
       }
     } catch (error: any) {
@@ -76,9 +88,7 @@ export default function Login() {
       id="login"
     >
       <Row className="pt-3">
-        <Col xs={12}>
-          {showAlert && <AlertMessage />}
-        </Col>
+        <Col xs={12}>{showAlert && <AlertMessage />}</Col>
       </Row>
       <Row className="pt-3">
         <Col xs={12}>
