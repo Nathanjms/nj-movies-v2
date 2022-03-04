@@ -21,8 +21,8 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const { setToken } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation() as any;
-  let from: string = location.state?.from?.pathname || "/";
+  const location: any = useLocation();
+  const from: string = location.state?.from?.pathname || "/";
 
   const AlertMessage = (): ReactElement | null => {
     if (!showAlert) setShowAlert(true);
@@ -57,7 +57,8 @@ export default function Login() {
           JSON.stringify(response.data.expiryDate)
         );
         setToken(response.data.token);
-        navigate(from, { replace: true }); // Return the user to where they came from (or "/" by default)
+        // Return the user to where they came from (or "/" by default)
+        navigate(from, { replace: true }); 
         return;
       }
     } catch (error: any) {

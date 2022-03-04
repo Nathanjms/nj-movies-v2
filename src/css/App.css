@@ -139,4 +139,26 @@ body {
   display: inline-block;
 }
 
+/*--------------------------------------------------------------
+# Movies
+--------------------------------------------------------------*/
 
+.mainBtn {
+    color: var(--dark2);
+    padding: 10px 20px;
+    transition: 0.3s;
+    font-size: 15px;
+    border-radius: 20px;
+    background: #f2f3f5;
+    width: fit-content;
+    overflow: hidden;
+    white-space: pre-wrap;
+}
+
+.mainBtn:hover,
+.mainBtn:active,
+.mainBtn:focus,
+.mainBtn:disabled {
+  background-color: var(--primary);
+  border: 1px solid var(--primary);
+}
