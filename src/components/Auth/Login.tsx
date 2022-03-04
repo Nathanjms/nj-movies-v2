@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext, useState } from "react";
+import React, { ReactElement, useState } from "react";
 import {
   Form,
   Button,
@@ -11,7 +11,7 @@ import {
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { baseURL } from "../Global/apiCommunication";
-import { AuthContext } from "./AuthContext";
+import { useAuth } from "./AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
@@ -19,7 +19,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { setToken } = useContext(AuthContext);
+  const { setToken } = useAuth();
   const navigate = useNavigate();
   const { state } = useLocation() as any;
 

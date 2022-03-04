@@ -1,7 +1,7 @@
-import React, { ReactElement, useContext, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { Alert, Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../Auth/AuthContext";
+import { useAuth } from "../Auth/AuthContext";
 import { AuthenticatedRequest } from "../Global/apiCommunication";
 
 interface MoviesProps {}
@@ -17,19 +17,13 @@ interface Movie {
 }
 
 export const Movies: React.FC<MoviesProps> = (): ReactElement => {
-  const { token, user } = useContext(AuthContext);
+  const { token, user } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState<string>("");
 
-  // TODO: Move this to be more generic and apply to all components requiring auth
   useEffect(() => {
-    if (!token) {
-      navigate("/login");
-      return;
-    }
-
     const buildMovies = async () => {
       setError("");
       setLoading(true);
