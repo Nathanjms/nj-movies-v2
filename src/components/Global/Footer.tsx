@@ -7,7 +7,7 @@ function Footer() {
     <div id="footer">
       <Container className="text-start">
         <Row>
-          <Col md={6}>
+          <Col sm={6}>
             <h4 style={{ paddingBottom: "20px" }}>Contact</h4>
             <div className="contact">
               <ul className="footerList list-unstyled">
@@ -30,7 +30,7 @@ function Footer() {
               </ul>
             </div>
           </Col>
-          <Col md={6}>
+          <Col sm={6}>
             <h4 style={{ paddingBottom: "20px" }}>More</h4>
             <div className="contact">
               <ul className="footerList list-unstyled">
@@ -40,7 +40,7 @@ function Footer() {
                 <li>
                   <a href="https://tools.nathanjms.co.uk">Tools</a>
                 </li>
-                <li>Last updated: 25th Feb 2022</li>
+                <li>Last updated: 4th March 2022</li>
               </ul>
             </div>
           </Col>
