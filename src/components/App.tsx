@@ -27,6 +27,8 @@ function App(): JSX.Element {
     let expiry = localStorage.getItem("expiry");
     if (expiry && Number(expiry) > new Date().valueOf()) {
       tokenVal = localStorage.getItem("token");
+    } else {
+      localStorage.clear(); // Expired token, so remove.
     }
     return tokenVal;
   };

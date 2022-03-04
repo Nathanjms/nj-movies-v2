@@ -77,7 +77,8 @@ export default function Login() {
   async function handleSubmit(e: any) {
     e.preventDefault();
     if (!email || !password) {
-      return; //TODO give error message
+      setError("Invalid Email or Password");
+      return;
     }
     await login(email, password);
   }
