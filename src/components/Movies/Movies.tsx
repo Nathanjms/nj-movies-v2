@@ -17,7 +17,7 @@ interface Movie {
 }
 
 export const Movies: React.FC<MoviesProps> = (): ReactElement => {
-  const {token, user} = useContext(AuthContext);
+  const { token, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -45,6 +45,12 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
         );
         setMovies(result.data.movies);
       } catch (error: any) {
+        if (error?.response?.status === 401) {
+          localStorage.clear();
+          navigate("/login", {
+            state: { message: "Session has expired, please login again." },
+          });
+        }
         if (error?.response?.data?.message) {
           setError(error.response.data.message);
           return;
