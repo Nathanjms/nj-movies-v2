@@ -17,10 +17,10 @@ import { AuthenticatedRequest } from "./Global/apiCommunication";
 
 function App() {
   const handleTokenExpiry = (): string | null => {
-    let tokenVal = localStorage.getItem("token");
+    let tokenVal: string | null = null;
     let expiry = localStorage.getItem("expiry");
-    if (tokenVal && expiry) {
-      tokenVal = Number(expiry) > new Date().valueOf() ? tokenVal : null;
+    if (expiry && Number(expiry) > new Date().valueOf()) {
+      tokenVal = localStorage.getItem("token");
     }
     return tokenVal;
   };
@@ -31,16 +31,17 @@ function App() {
   );
 
   useEffect(() => {
+    // Only get user info if token is set, so escape here if token isn't set.
     if (!token) {
-      return; // Only get user info if token is set.
+      return;
     }
 
     const buildUsersName = async () => {
       try {
         const result = await AuthenticatedRequest(token).get("/api/users");
         setUser(result.data.name);
-      } catch (error) {
-        setUser(null);
+      } catch (error: any) {
+        localStorage.clear();
       }
     };
 
