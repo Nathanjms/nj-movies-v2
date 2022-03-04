@@ -1,16 +1,10 @@
-import React, { ReactElement, useContext, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { Alert, Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../Auth/AuthContext";
+import { useAuth } from "../Auth/AuthContext";
 import { AuthenticatedRequest } from "../Global/apiCommunication";
 
 interface MoviesProps {}
-
-export interface User {
-  name: string;
-  groups: { groupId?: number }[];
-}
-
 interface Movie {
   id: number;
   title: string;
@@ -23,19 +17,13 @@ interface Movie {
 }
 
 export const Movies: React.FC<MoviesProps> = (): ReactElement => {
-  const authContext = useContext(AuthContext);
+  const { token, user } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState<string>("");
 
-  // TODO: Move this to be more generic and apply to all components requiring auth
   useEffect(() => {
-    if (!authContext.token) {
-      navigate("/signin");
-      return;
-    }
-
     const buildMovies = async () => {
       setError("");
       setLoading(true);
@@ -45,18 +33,24 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
           perPage: 10,
           groupId: 1,
         };
-        const result = await AuthenticatedRequest(authContext.token ?? "").get(
+        const result = await AuthenticatedRequest(token ?? "").get(
           "/api/movies",
           { params: params }
         );
         setMovies(result.data.movies);
       } catch (error: any) {
+        if (error?.response?.status === 401) {
+          localStorage.clear();
+          navigate("/login", {
+            state: { message: "Session has expired, please login again." },
+          });
+        }
         if (error?.response?.data?.message) {
           setError(error.response.data.message);
           return;
         }
         if (error?.message) {
-          navigate("/signin");
+          navigate("/login");
           return;
         }
       }
@@ -64,7 +58,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
     buildMovies();
     setLoading(false);
     setLoading(false);
-  }, [navigate, authContext]);
+  }, [navigate, token]);
 
   if (loading) {
     return <h2>Loading...</h2>;
@@ -76,7 +70,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
         <Row className="pt-1">
           {error && <Alert variant="danger">{error}</Alert>}
           <h2>Movies</h2>
-          <h4>Hello, {authContext.user} </h4>
+          <h4>Hello, {user} </h4>
         </Row>
         <Row>
           <Col xs={12}>

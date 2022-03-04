@@ -22,7 +22,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
 
   useEffect(() => {
     if (!authContext || !authContext.token) {
-      navigate("/signin");
+      navigate("/login");
       return;
     }
 
