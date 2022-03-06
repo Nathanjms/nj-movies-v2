@@ -95,7 +95,7 @@ export default function Login() {
       <Row className="pt-3">
         <Col xs={12}>
           <div className="w-100" style={{ maxWidth: "400px", margin: "auto" }}>
-            <Card className="text-black">
+            <Card className="text-black radius-nj">
               <Card.Body>
                 <h2 className="text-center mb-4">Log In</h2>
                 {error && <Alert variant="danger">{error}</Alert>}
