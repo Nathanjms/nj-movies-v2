@@ -90,7 +90,7 @@ export default function MovieFormModal({
         },
       });
       let movies: Movie[];
-  
+
       movies = request.data.results.map((movie: APIMovie) => {
         return {
           title: movie.title,
@@ -104,7 +104,7 @@ export default function MovieFormModal({
       if (error?.response?.status === 401) {
         setError("Cannot access TMDB");
       } else {
-        setError("Error connecting to TMDB")
+        setError("Error connecting to TMDB");
       }
       return [];
     }
