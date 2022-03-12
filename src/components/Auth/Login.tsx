@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { baseURL } from "../../helpers/apiCommunication";
+import { baseURL, routes } from "../../helpers/apiCommunication";
 import { useAuth } from "./AuthContext";
 
 export default function Login() {
@@ -46,7 +46,7 @@ export default function Login() {
     setLoading(true);
     setError("");
     try {
-      let response = await axios.post(`${baseURL}/api/auth/signin`, {
+      let response = await axios.post(baseURL + routes.auth.SIGN_IN, {
         email: email,
         password: password,
       });
@@ -58,7 +58,7 @@ export default function Login() {
         );
         setToken(response.data.token);
         // Return the user to where they came from (or "/" by default)
-        navigate(from, { replace: true }); 
+        navigate(from, { replace: true });
         return;
       }
     } catch (error: any) {
