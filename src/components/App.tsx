@@ -19,7 +19,12 @@ import Random from "./Movies/Random";
 import About from "./Movies/About";
 import { AuthContext, useAuth, UserMovieGroup } from "./Auth/AuthContext";
 import Login from "./Auth/Login";
-import { AuthenticatedRequest } from "./Global/apiCommunication";
+import { AuthenticatedRequest } from "../helpers/apiCommunication";
+
+export interface LogInMessage {
+  message: string | null;
+  type?: string;
+}
 
 function App(): JSX.Element {
   const handleTokenExpiry = (): string | null => {
@@ -28,7 +33,7 @@ function App(): JSX.Element {
     if (expiry && Number(expiry) > new Date().valueOf()) {
       tokenVal = localStorage.getItem("token");
     } else {
-      localStorage.clear(); // Expired token, so remove.
+      localStorage.clear(); // Expired token, so remove local storage.
     }
     return tokenVal;
   };
@@ -113,9 +118,20 @@ function App(): JSX.Element {
 function RequireAuth({ children }: { children: JSX.Element }) {
   let auth = useAuth();
   let location = useLocation();
-
   if (!auth.token) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return (
+      <Navigate
+        to="/login"
+        state={{
+          from: location,
+          logInMessage: {
+            message: "You must be logged in to access that section.",
+            type: "danger",
+          },
+        }}
+        replace
+      />
+    );
   }
 
   return children;
