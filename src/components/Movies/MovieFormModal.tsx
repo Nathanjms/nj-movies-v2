@@ -3,7 +3,7 @@ import { Button, Modal, Form } from "react-bootstrap";
 import { useAuth } from "../Auth/AuthContext";
 import AsyncSelect from "react-select/async";
 import axios from "axios";
-import { ActionMeta, SingleValue } from "react-select/dist/declarations/src";
+import { APIMovie } from "../../helpers/apiCommunication";
 
 interface Movie {
   title: string;

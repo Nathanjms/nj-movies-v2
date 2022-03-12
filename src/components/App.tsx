@@ -19,7 +19,7 @@ import Random from "./Movies/Random";
 import About from "./Movies/About";
 import { AuthContext, useAuth, UserMovieGroup } from "./Auth/AuthContext";
 import Login from "./Auth/Login";
-import { AuthenticatedRequest } from "./Global/apiCommunication";
+import { AuthenticatedRequest } from "../helpers/apiCommunication";
 
 function App(): JSX.Element {
   const handleTokenExpiry = (): string | null => {

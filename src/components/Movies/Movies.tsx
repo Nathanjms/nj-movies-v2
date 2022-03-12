@@ -4,7 +4,7 @@ import { Alert, Button, Col, Container, Row } from "react-bootstrap";
 import { FaPlusSquare } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthContext";
-import { AuthenticatedRequest } from "../Global/apiCommunication";
+import { AuthenticatedRequest } from "../../helpers/apiCommunication";
 import MovieFormModal from "./MovieFormModal";
 
 interface MoviesProps {}

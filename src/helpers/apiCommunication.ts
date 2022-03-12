@@ -2,6 +2,21 @@ import axios from "axios";
 
 export const baseURL = process.env.REACT_APP_API_URL || "http://localhost:3002";
 
+export const routes = {
+    auth: {
+        SIGN_IN: '/api/auth/signin',
+        SIGN_UP: '/api/auth/register',
+    },
+    movies: {
+        GET: '/api/movies',
+        CREATE: '/api/movies',
+        SHOW: '/api/movies',
+        MARK_SEEN: '/api/movies/mark-seen',
+        REVIEW: '/api/movies/review',
+        REMOVE: '/api/movies',
+    }
+}
+
 export const AuthenticatedRequest = (userToken: string) => {
   return axios.create({
     baseURL: baseURL,
