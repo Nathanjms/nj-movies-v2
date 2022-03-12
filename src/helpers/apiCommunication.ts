@@ -16,7 +16,7 @@ export const routes = {
     REMOVE: "/api/movies",
   },
   tmdb: {
-    SEARCH: "https://api.themoviedb.org/3/search/movie",
+    SEARCH: "/search/movie",
   },
 };
 
@@ -47,3 +47,17 @@ export interface APIMovie {
   vote_average: number;
   vote_count: number;
 }
+
+export const tmdbApiUrl = "https://api.themoviedb.org/3";
+
+export const tmdbImageUrl = "https://image.tmdb.org/t/p/";
+
+export const posterSizes = {
+  xxs: "w92",
+  xs: "w154",
+  sm: "w185",
+  md: "w342",
+  lg: "w500",
+  xl: "w780",
+  xxl: "original",
+};

@@ -7,6 +7,7 @@ import {
   APIMovie,
   AuthenticatedRequest,
   routes,
+  tmdbApiUrl,
 } from "../../helpers/apiCommunication";
 import { useNavigate } from "react-router-dom";
 
@@ -72,30 +73,41 @@ export default function MovieFormModal({
       }
     } finally {
       setLoading(false);
+      setMovie(null);
     }
   };
 
   const searchApi = async (inputValue: string) => {
-    let request = await axios.get(routes.tmdb.SEARCH, {
-      params: {
-        api_key: process.env.REACT_APP_TMDB_API_KEY,
-        query: inputValue,
-      },
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-    let movies: Movie[];
-
-    movies = request.data.results.map((movie: APIMovie, i: number) => {
-      return {
-        title: movie.title,
-        tmdbId: movie.id,
-        posterPath: movie.poster_path,
-      };
-    });
-    return movies;
+    try {
+      let request = await axios.get(tmdbApiUrl + routes.tmdb.SEARCH, {
+        params: {
+          api_key: process.env.REACT_APP_TMDB_API_KEY,
+          query: inputValue,
+        },
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+      let movies: Movie[];
+  
+      movies = request.data.results.map((movie: APIMovie) => {
+        return {
+          title: movie.title,
+          tmdbId: movie.id,
+          posterPath: movie.poster_path,
+        };
+      });
+      return movies;
+    } catch (error: any) {
+      console.dir(error);
+      if (error?.response?.status === 401) {
+        setError("Cannot access TMDB");
+      } else {
+        setError("Error connecting to TMDB")
+      }
+      return [];
+    }
   };
 
   // Load options using API call
