@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { baseURL } from "../Global/apiCommunication";
+import { baseURL } from "../../helpers/apiCommunication";
 import { useAuth } from "./AuthContext";
 
 export default function Login() {
