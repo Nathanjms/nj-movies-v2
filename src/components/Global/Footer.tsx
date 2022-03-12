@@ -40,7 +40,21 @@ function Footer() {
                 <li>
                   <a href="https://tools.nathanjms.co.uk">Tools</a>
                 </li>
-                <li>Last updated: 4th March 2022</li>
+                <li>Last updated: 12th March 2022</li>
+                <li>
+                  Enhanced by{" "}
+                  <a
+                    href="https://www.themoviedb.org/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src="/tmdbLogo.svg"
+                      alt="tmdb Logo"
+                      style={{ maxHeight: "1rem", maxWidth: "50%" }}
+                    />
+                  </a>
+                </li>
               </ul>
             </div>
           </Col>
