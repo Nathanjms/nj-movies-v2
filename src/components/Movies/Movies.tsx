@@ -1,9 +1,11 @@
+import axios from "axios";
 import React, { ReactElement, useEffect, useState } from "react";
 import { Alert, Button, Col, Container, Row } from "react-bootstrap";
 import { FaPlusSquare } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthContext";
 import { AuthenticatedRequest } from "../Global/apiCommunication";
+import MovieFormModal from "./MovieFormModal";
 
 interface MoviesProps {}
 interface Movie {
@@ -23,10 +25,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState<string>("");
-
-  const handleNewMovieBtnClick = (): void => {
-    console.log("Clicked!");
-  };
+  const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
 
   useEffect(() => {
     const buildMovies = async () => {
@@ -71,11 +70,18 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
 
   return (
     <React.Fragment>
+      <MovieFormModal
+        handleClose={() => setShowCreateModal(false)}
+        show={showCreateModal}
+      />
       <Container className="section">
         <Row className="pt-1">
           <Col xs={12}>{error && <Alert variant="danger">{error}</Alert>}</Col>
           <Col xs={12} className="text-end">
-            <Button className="mainBtn" onClick={handleNewMovieBtnClick}>
+            <Button
+              className="mainBtn"
+              onClick={() => setShowCreateModal(true)}
+            >
               <FaPlusSquare /> Add New Movie
             </Button>
           </Col>
