@@ -75,7 +75,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
   return (
     <React.Fragment>
       <MovieFormModal
-        handleClose={() => setShowCreateModal(false)}
+        setShowCreateModal={setShowCreateModal}
         show={showCreateModal}
       />
       <Container className="section">
