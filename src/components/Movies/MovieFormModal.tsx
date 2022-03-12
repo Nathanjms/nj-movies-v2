@@ -1,9 +1,9 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import { useAuth } from "../Auth/AuthContext";
 import AsyncSelect from "react-select/async";
 import axios from "axios";
-import { APIMovie } from "../../helpers/apiCommunication";
+import { APIMovie, routes } from "../../helpers/apiCommunication";
 
 interface Movie {
   title: string;
@@ -20,47 +20,17 @@ export default function MovieFormModal({
   handleClose,
   show,
 }: MovieFormModalProps): ReactElement {
-  const [title, setTitle] = useState<string>("");
-  const [tmdbId, setTmdbId] = useState<string>("");
   const [movie, setMovie] = useState<Movie | null>(null);
   const [loading, setLoading] = useState(false);
-  const { user } = useAuth();
+  const { user, token } = useAuth();
 
-  async function handleSubmit(e: any) {
-    //   e.preventDefault();
-    //   if (!title) {
-    //     console.log("false title");
-    //     return;
-    //   }
-    //   try {
-    //   } catch (err) {}
-  }
-
-  // const handleInputChange = async (newValue: string, actionMeta: ActionMeta) => {
-  //   console.log(newValue);
-  //   if (newValue.length < 3) {
-  //     return;
-  //   }
-  //   if (typingTimeout) {
-  //     clearTimeout(typingTimeout);
-  //   }
-
-  // }
-
-  // const loadOptions = (
-  //   inputValue: string,
-  //   callback: (options: ColourOption[]) => void
-  // ) => {
-  //   setTimeout(() => {
-  //     callback(filterColors(inputValue));
-  //   }, 1000);
-  // };
-
-  let searchTimeout: NodeJS.Timeout;
+  const handleSubmit = async () => {
+    console.log("submit with token: " + token);
+    console.log(user);
+  };
 
   const searchApi = async (inputValue: string) => {
-    console.log("search");
-    let request = await axios.get("https://api.themoviedb.org/3/search/movie", {
+    let request = await axios.get(routes.tmdb.SEARCH, {
       params: {
         api_key: process.env.REACT_APP_TMDB_API_KEY,
         query: inputValue,
@@ -70,16 +40,29 @@ export default function MovieFormModal({
         "Content-Type": "application/json",
       },
     });
-    return request.data.results as Movie[];
+    let movies: Movie[];
+
+    movies = request.data.results.map((movie: APIMovie, i: number) => {
+      return {
+        title: movie.title,
+        tmdbId: movie.id,
+        posterPath: movie.poster_path,
+      };
+    });
+    return movies;
   };
 
-  // load options using API call
+  // Load options using API call
+  let searchTimeout: NodeJS.Timeout;
   const loadOptions = (
     inputValue: string,
     callback: (movies: Movie[]) => void
   ) => {
     clearTimeout(searchTimeout);
-    if (!inputValue.length) {
+
+    // Minor validation check
+    if (!inputValue.trim().length) {
+      callback([]); // Set empty array for movies to return.
       return;
     }
 
@@ -97,7 +80,7 @@ export default function MovieFormModal({
         show={show}
         onHide={() => handleClose()}
       >
-        <Form onSubmit={handleSubmit}>
+        <Form>
           <Modal.Header closeButton>
             <Modal.Title>Add new movie to watch list</Modal.Title>
           </Modal.Header>
@@ -105,25 +88,33 @@ export default function MovieFormModal({
             <Form.Group id="title">
               <Form.Label>What's the Movie Title?</Form.Label>
               <AsyncSelect
-                cacheOptions={false}
+                cacheOptions
                 loadOptions={loadOptions}
-                defaultOptions
                 getOptionLabel={(e) => {
                   return e.title;
                 }}
                 getOptionValue={(e) => {
                   return e.tmdbId;
                 }}
-                placeholder="Enter 3 letters to search..."
+                placeholder="Enter movie title..."
+                isClearable
+                backspaceRemovesValue
+                onChange={(selectedMovie, a) => {
+                  setMovie(selectedMovie);
+                }}
               />
-              <small>Enter at least 3 characters</small>
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => handleClose()}>
               Close
             </Button>
-            <Button disabled={loading} variant="primary" type="button">
+            <Button
+              disabled={loading || !movie}
+              variant="primary"
+              onClick={handleSubmit}
+              type="button"
+            >
               Submit!
             </Button>
           </Modal.Footer>

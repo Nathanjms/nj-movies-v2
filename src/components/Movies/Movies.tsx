@@ -1,10 +1,9 @@
-import axios from "axios";
 import React, { ReactElement, useEffect, useState } from "react";
 import { Alert, Button, Col, Container, Row } from "react-bootstrap";
 import { FaPlusSquare } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthContext";
-import { AuthenticatedRequest } from "../../helpers/apiCommunication";
+import { AuthenticatedRequest, routes } from "../../helpers/apiCommunication";
 import MovieFormModal from "./MovieFormModal";
 
 interface MoviesProps {}
@@ -35,14 +34,15 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
       setError("");
       setLoading(true);
       try {
-        let params = {
-          page: 1,
-          perPage: 10,
-          groupId: 1,
-        };
         const result = await AuthenticatedRequest(token).get(
-          "/api/movies",
-          { params: params }
+          routes.movies.GET,
+          {
+            params: {
+              page: 1,
+              perPage: 10,
+              groupId: 1,
+            },
+          }
         );
         setMovies(result.data.movies);
       } catch (error: any) {
