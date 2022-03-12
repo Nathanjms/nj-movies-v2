@@ -40,7 +40,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
             params: {
               page: 1,
               perPage: 10,
-              groupId: 1,
+              // groupId: 1, // TODO: Add back in once group functionality has been developed 
             },
           }
         );
