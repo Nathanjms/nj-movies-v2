@@ -40,7 +40,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
             params: {
               page: 1,
               perPage: 10,
-              // groupId: 1, // TODO: Add back in once group functionality has been developed 
+              // groupId: 1, // TODO: Add back in once group functionality has been developed
             },
           }
         );
@@ -49,7 +49,12 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
         if (error?.response?.status === 401) {
           localStorage.clear();
           navigate("/login", {
-            state: { message: "Session has expired, please login again." },
+            state: {
+              LogInMessage: {
+                message: "Session has expired, please login again.",
+                type: "error",
+              },
+            },
           });
           return;
         }

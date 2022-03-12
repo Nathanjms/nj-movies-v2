@@ -12,33 +12,38 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { baseURL, routes } from "../../helpers/apiCommunication";
 import { useAuth } from "./AuthContext";
+import { LogInMessage } from "../App";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState("");
-  const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false);
   const { setToken } = useAuth();
   const navigate = useNavigate();
   const location: any = useLocation();
   const from: string = location.state?.from?.pathname || "/";
+  const [logInMessage, setLogInMessage] = useState<LogInMessage | null>(
+    location?.state?.logInMessage || null
+  );
 
-  const AlertMessage = (): ReactElement | null => {
-    if (!showAlert) setShowAlert(true);
-    let message: string | null = location?.state?.message || null;
-    let type: string = location?.state?.type || "info";
-    if (!message) {
+  const AlertElement = (): ReactElement | null => {
+    if (!logInMessage?.message) {
       return null;
     }
+    console.log(logInMessage);
     return (
-      <Alert
-        variant={type}
-        dismissible={true}
-        onClose={() => setShowAlert(false)}
-      >
-        {message}
-      </Alert>
+      <Row className="pt-3">
+        <Col xs={12}>
+          <Alert
+            variant={!logInMessage?.type ? "info" : logInMessage.type}
+            dismissible={true}
+            onClose={() => setLogInMessage(null)}
+          >
+            {logInMessage.message}
+          </Alert>
+        </Col>
+      </Row>
     );
   };
 
@@ -89,9 +94,7 @@ export default function Login() {
       style={{ minHeight: "100vh" }}
       id="login"
     >
-      <Row className="pt-3">
-        <Col xs={12}>{showAlert && <AlertMessage />}</Col>
-      </Row>
+      <AlertElement />
       <Row className="pt-3">
         <Col xs={12}>
           <div className="w-100" style={{ maxWidth: "400px", margin: "auto" }}>
