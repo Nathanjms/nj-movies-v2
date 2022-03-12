@@ -3,7 +3,12 @@ import { Alert, Button, Col, Container, Row } from "react-bootstrap";
 import { FaPlusSquare } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthContext";
-import { AuthenticatedRequest, routes } from "../../helpers/apiCommunication";
+import {
+  AuthenticatedRequest,
+  posterSizes,
+  routes,
+  tmdbImageUrl,
+} from "../../helpers/apiCommunication";
 import MovieFormModal from "./MovieFormModal";
 
 interface MoviesProps {}
@@ -94,11 +99,20 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
               <FaPlusSquare /> Add New Movie
             </Button>
           </Col>
-          <Col xs={12}>
-            {movies.map((movie) => {
-              return <p key={movie.id}>{movie.title}</p>;
-            })}
-          </Col>
+        </Row>
+        <Row className="pt-1">
+          {movies.map((movie) => {
+            return (
+              <Col key={movie.id} className="movieCard" sm={6} md={4}>
+                <h3>{movie.title}</h3>
+                <img
+                  src={tmdbImageUrl + posterSizes.xxs + movie.poster_path}
+                  alt={movie.title + " poster"}
+                  loading="lazy"
+                />
+              </Col>
+            );
+          })}
         </Row>
       </Container>
     </React.Fragment>
