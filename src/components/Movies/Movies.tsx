@@ -103,13 +103,20 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
         <Row className="pt-3">
           {movies.map((movie) => {
             return (
-              <Col key={movie.id} className="movieCard" sm={6} md={4}>
-                <h3>{movie.title}</h3>
-                <img
-                  src={tmdbImageUrl + posterSizes.xxs + movie.poster_path}
-                  alt={movie.title + " poster"}
-                  loading="lazy"
-                />
+              <Col key={movie.id} className="movieCard pt-1 pb-1" sm={6} lg={4}>
+                <Row>
+                  <Col xs={4}>
+                    <img
+                      src={tmdbImageUrl + posterSizes.xxs + movie.poster_path}
+                      alt={movie.title + " poster"}
+                      loading="lazy"
+                    />
+                  </Col>
+                  <Col xs={8}>
+                    <h3>{movie.title}</h3>
+                    <Button>Watched it!</Button>
+                  </Col>
+                </Row>
               </Col>
             );
           })}
