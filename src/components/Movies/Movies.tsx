@@ -91,7 +91,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
       <Container className="section">
         <Row className="pt-1">
           <Col xs={12}>{error && <Alert variant="danger">{error}</Alert>}</Col>
-          <Col xs={12} className="text-end">
+          <Col xs={12} className="text-start">
             <Button
               className="mainBtn"
               onClick={() => setShowCreateModal(true)}
@@ -100,7 +100,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
             </Button>
           </Col>
         </Row>
-        <Row className="pt-1">
+        <Row className="pt-3">
           {movies.map((movie) => {
             return (
               <Col key={movie.id} className="movieCard" sm={6} md={4}>
