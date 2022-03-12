@@ -47,7 +47,6 @@ export default function MovieFormModal({
           posterPath: movie.posterPath,
         }
       );
-      console.dir(result);
       if (result?.data?.success) {
         setShowCreateModal(false);
         return;
@@ -100,7 +99,6 @@ export default function MovieFormModal({
       });
       return movies;
     } catch (error: any) {
-      console.dir(error);
       if (error?.response?.status === 401) {
         setError("Cannot access TMDB");
       } else {

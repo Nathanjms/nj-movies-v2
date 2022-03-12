@@ -31,7 +31,6 @@ export default function Login() {
     if (!logInMessage?.message) {
       return null;
     }
-    console.log(logInMessage);
     return (
       <Row className="pt-3">
         <Col xs={12}>
