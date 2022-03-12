@@ -28,6 +28,9 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
   const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
 
   useEffect(() => {
+    if (!token) {
+      return;
+    }
     const buildMovies = async () => {
       setError("");
       setLoading(true);
@@ -37,7 +40,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
           perPage: 10,
           groupId: 1,
         };
-        const result = await AuthenticatedRequest(token ?? "").get(
+        const result = await AuthenticatedRequest(token).get(
           "/api/movies",
           { params: params }
         );
@@ -48,6 +51,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
           navigate("/login", {
             state: { message: "Session has expired, please login again." },
           });
+          return;
         }
         if (error?.response?.data?.message) {
           setError(error.response.data.message);
