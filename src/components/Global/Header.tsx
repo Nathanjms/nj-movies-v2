@@ -2,7 +2,10 @@ import React, { ReactElement, useContext } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { AuthContext } from "../Auth/AuthContext";
 
-const UserGreeting = (userName: string | null): ReactElement | null => {
+interface UserGreetingProps {
+  userName: string | null;
+}
+const UserGreeting = ({ userName }: UserGreetingProps): ReactElement | null => {
   if (!userName) {
     return null;
   }
@@ -26,8 +29,9 @@ function Home() {
             </span>
             <h1>Movies</h1>
           </Col>
-          {UserGreeting(authContext.user)}
-          {/* <UserGreeting userName="test"/> */}
+          <h2>
+            <UserGreeting userName={authContext.user} />
+          </h2>
         </Row>
       </Container>
     </div>
