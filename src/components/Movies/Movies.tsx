@@ -125,7 +125,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
                       className="backdropImg"
                       src={
                         movie.backdrop_path
-                          ? tmdbImageUrl + posterSizes.md + movie.backdrop_path
+                          ? tmdbImageUrl + posterSizes.lg + movie.backdrop_path
                           : "/backdrop404.svg"
                       }
                       alt={movie.title + " poster"}
