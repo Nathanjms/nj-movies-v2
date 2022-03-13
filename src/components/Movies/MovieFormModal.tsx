@@ -134,6 +134,7 @@ export default function MovieFormModal({
         centered={true}
         size="lg"
         show={show}
+        onHide={() => setShowCreateModal(false)}
       >
         <Modal.Header closeButton>
           <Modal.Title>Add new movie to watch list</Modal.Title>
