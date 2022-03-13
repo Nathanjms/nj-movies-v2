@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useRef, useState } from "react";
 import { Button, Modal, Form, Alert } from "react-bootstrap";
 import { useAuth } from "../Auth/AuthContext";
 import AsyncSelect from "react-select/async";
@@ -10,6 +10,7 @@ import {
   tmdbApiUrl,
 } from "../../helpers/apiCommunication";
 import { useNavigate } from "react-router-dom";
+import { SelectInstance } from "react-select/dist/declarations/src";
 
 interface Movie {
   title: string;
@@ -29,6 +30,7 @@ export default function MovieFormModal({
 }: MovieFormModalProps): ReactElement {
   const [movie, setMovie] = useState<Movie | null>(null);
   const [loading, setLoading] = useState(false);
+  const selectRef = useRef<SelectInstance<Movie> | null>(null);
   const [error, setError] = useState("");
   const { token, setUser, setToken } = useAuth();
   const navigate = useNavigate();
@@ -138,6 +140,11 @@ export default function MovieFormModal({
         size="lg"
         show={show}
         onHide={() => setShowCreateModal(false)}
+        onEntered={() => {
+          if (selectRef?.current) {
+            selectRef.current.focus();
+          }
+        }}
       >
         <Modal.Header closeButton>
           <Modal.Title>Add new movie to watch list</Modal.Title>
@@ -147,6 +154,7 @@ export default function MovieFormModal({
           <Form.Group id="title">
             <Form.Label>What's the Movie Title?</Form.Label>
             <AsyncSelect
+              ref={selectRef}
               cacheOptions
               loadOptions={loadOptions}
               getOptionLabel={(e) => {
