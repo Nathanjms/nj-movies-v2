@@ -10,6 +10,7 @@ import {
   tmdbImageUrl,
 } from "../../helpers/apiCommunication";
 import MovieFormModal from "./MovieFormModal";
+import "../../css/Movies.css";
 
 interface MoviesProps {}
 interface Movie {
@@ -17,10 +18,12 @@ interface Movie {
   title: string;
   tmdb_id: string;
   poster_path: string;
+  backdrop_path: string;
   rating: number;
   seen: boolean;
   group_id: number | null;
   created_by: number;
+  created_at: string;
 }
 
 export const Movies: React.FC<MoviesProps> = (): ReactElement => {
