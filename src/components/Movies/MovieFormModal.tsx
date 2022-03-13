@@ -15,6 +15,7 @@ interface Movie {
   title: string;
   tmdbId: string;
   posterPath: string;
+  backdropPath: string;
 }
 
 interface MovieFormModalProps {
@@ -45,6 +46,7 @@ export default function MovieFormModal({
           title: movie.title,
           tmdbId: movie.tmdbId,
           posterPath: movie.posterPath,
+          backdropPath: movie.backdropPath,
         }
       );
       if (result?.data?.success) {
@@ -95,6 +97,7 @@ export default function MovieFormModal({
           title: movie.title,
           tmdbId: movie.id,
           posterPath: movie.poster_path,
+          backdropPath: movie.backdrop_path,
         };
       });
       return movies;
