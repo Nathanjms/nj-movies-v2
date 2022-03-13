@@ -106,20 +106,47 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
         <Row className="pt-3">
           {movies.map((movie) => {
             return (
-              <Col key={movie.id} className="movieCard pt-1 pb-1" sm={6} lg={4}>
-                <Row>
-                  <Col xs={4}>
+              <Col lg={4} key={movie.id} className="pt-1 pb-1 d-flex">
+                <div className="movieContainer">
+                  <div className="movieCard">
+                    <div className="overlay d-none d-sm-block">
+                      <div className="p-3">
+                        <h3>{movie.title}</h3>
+                        <div className="overlayBody">
+                          <p>
+                            Added on{" "}
+                            {new Date(movie.created_at).toLocaleDateString()}
+                          </p>
+                          <Button style={{ opacity: 1 }}>Watched it!</Button>
+                        </div>
+                      </div>
+                    </div>
                     <img
-                      src={tmdbImageUrl + posterSizes.xxs + movie.poster_path}
+                      className="backdropImg"
+                      src={
+                        movie.backdrop_path
+                          ? tmdbImageUrl + posterSizes.md + movie.backdrop_path
+                          : "/backdrop404.svg"
+                      }
                       alt={movie.title + " poster"}
                       loading="lazy"
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src = "/tmdbLogo.svg";
+                      }}
                     />
-                  </Col>
-                  <Col xs={8}>
-                    <h3>{movie.title}</h3>
-                    <Button>Watched it!</Button>
-                  </Col>
-                </Row>
+                    <div className="movieTitle p-2">
+                      <h3>{movie.title}</h3>
+                      <div className="overlayBody d-block d-sm-none">
+                        <p>
+                          Added on{" "}
+                          {new Date(movie.created_at).toLocaleDateString()}
+                        </p>
+                        <Button style={{ opacity: 1 }}>Watched it!</Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </Col>
             );
           })}
