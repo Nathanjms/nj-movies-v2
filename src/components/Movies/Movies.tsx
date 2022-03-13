@@ -109,7 +109,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
               <Col lg={4} sm={6} key={movie.id} className="pt-1 pb-1 d-flex">
                 <div className="movieContainer">
                   <div className="movieCard">
-                    <div className="overlay d-none d-md-block">
+                    <div className="overlay hover-required">
                       <div className="p-3">
                         <h4>{movie.title}</h4>
                         <div className="overlayBody">
@@ -137,7 +137,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
                     />
                     <div className="movieTitle p-2">
                       <h4>{movie.title}</h4>
-                      <div className="overlayBody d-block d-md-none">
+                      <div className="overlayBody no-hover">
                         <p>
                           Added on{" "}
                           {new Date(movie.created_at).toLocaleDateString()}

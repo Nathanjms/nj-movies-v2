@@ -9,6 +9,18 @@
   --dark2: #333333;
 }
 
+@media (hover: hover) {
+  .no-hover {
+    display:none;
+  }
+}
+
+@media (hover: none) {
+  .hover-required {
+    display:none;
+  }
+}
+
 ::selection {
   background-color: var(--primary);
   color: #fff;
