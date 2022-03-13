@@ -61,3 +61,11 @@ export const posterSizes = {
   xl: "w780",
   xxl: "original",
 };
+
+export const backdropSizes = {
+  xs: "w92", // Unofficial, seems to work?
+  sm: "w300",
+  md: "w780",
+  lg: "w1280",
+  xl: "original",
+};

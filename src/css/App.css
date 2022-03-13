@@ -75,10 +75,6 @@ body {
   text-align: center;
 }
 
-#header {
-  background-color: var(--dark2);
-}
-
 #body {
   min-height: 80vh;
   text-align: left;
@@ -158,6 +154,7 @@ body {
     font-size: 15px;
     border-radius: 1.5rem;
     background: #f2f3f5;
+    border-color: #f2f3f5;
     width: fit-content;
     overflow: hidden;
     white-space: pre-wrap;
