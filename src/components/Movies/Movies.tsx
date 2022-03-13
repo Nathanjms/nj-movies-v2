@@ -111,7 +111,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
                   <div className="movieCard">
                     <div className="overlay d-none d-md-block">
                       <div className="p-3">
-                        <h3>{movie.title}</h3>
+                        <h4>{movie.title}</h4>
                         <div className="overlayBody">
                           <p>
                             Added on{" "}
@@ -136,7 +136,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
                       }}
                     />
                     <div className="movieTitle p-2">
-                      <h3>{movie.title}</h3>
+                      <h4>{movie.title}</h4>
                       <div className="overlayBody d-block d-md-none">
                         <p>
                           Added on{" "}
