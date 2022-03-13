@@ -75,10 +75,6 @@ body {
   text-align: center;
 }
 
-#header {
-  background-color: var(--dark2);
-}
-
 #body {
   min-height: 80vh;
   text-align: left;
