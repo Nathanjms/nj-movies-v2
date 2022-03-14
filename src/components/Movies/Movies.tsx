@@ -158,6 +158,26 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
             );
           })}
         </Row>
+        <Row>
+          <Col xs={12}>
+            <div className="d-flex justify-content-between">
+              <Button
+                className="mainBtn"
+                disabled={!prevPageUrl}
+                onClick={() => setPageNumber((prevNum) => prevNum - 1)}
+              >
+                Prev
+              </Button>
+              <Button
+                className="mainBtn"
+                disabled={!nextPageUrl}
+                onClick={() => setPageNumber((prevNum) => prevNum + 1)}
+              >
+                Next
+              </Button>
+            </div>
+          </Col>
+        </Row>
       </Container>
     </React.Fragment>
   );
