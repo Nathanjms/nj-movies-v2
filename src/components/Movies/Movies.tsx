@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { Alert, Button, Col, Container, Row } from "react-bootstrap";
-import { FaPlusSquare } from "react-icons/fa";
+import { FaPeopleArrows, FaPlusSquare } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthContext";
 import {
@@ -9,6 +9,7 @@ import {
   routes,
   tmdbImageUrl,
 } from "../../helpers/apiCommunication";
+import { perPage } from "../../helpers/movies"
 import MovieFormModal from "./MovieFormModal";
 import "../../css/Movies.css";
 
@@ -33,6 +34,9 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState<string>("");
   const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
+  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [nextPageUrl, setNextPageUrl] = useState<string | null>(null);
+  const [prevPageUrl, setPrevPageUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (!token) {
@@ -46,13 +50,17 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
           routes.movies.GET,
           {
             params: {
-              page: 1,
-              perPage: 10,
+              page: pageNumber,
+              perPage: perPage(),
               // groupId: 1, // TODO: Add back in once group functionality has been developed
+              watched: false, //TODO: Make this dynamic
             },
           }
         );
         setMovies(result.data.movies);
+        setNextPageUrl(result.data.nextPageUrl);
+        setPrevPageUrl(result.data.prevPageUrl);
+        console.log(result.data.nextPageUrl);
       } catch (error: any) {
         if (error?.response?.status === 401) {
           localStorage.clear();
@@ -79,7 +87,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
     buildMovies();
     setLoading(false);
     setLoading(false);
-  }, [navigate, token]);
+  }, [navigate, token, pageNumber]);
 
   if (loading) {
     return <h2>Loading...</h2>;
@@ -94,19 +102,30 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
       <Container className="section">
         <Row className="pt-1">
           <Col xs={12}>{error && <Alert variant="danger">{error}</Alert>}</Col>
-          <Col xs={12} className="text-start">
-            <Button
-              className="mainBtn"
-              onClick={() => setShowCreateModal(true)}
-            >
-              <FaPlusSquare /> Add New Movie
-            </Button>
+          <Col xs={12}>
+            <div className="d-flex justify-content-between">
+              <Button
+                className="mainBtn"
+                onClick={() => setShowCreateModal(true)}
+              >
+                <FaPlusSquare /> Add New Movie
+              </Button>
+              <Button
+                className="mainBtn"
+                onClick={() => {
+                  console.log("Group Dialogue");
+                }}
+                disabled={true}
+              >
+                <FaPeopleArrows /> Change Group
+              </Button>
+            </div>
           </Col>
         </Row>
         <Row className="pt-3">
           {movies.map((movie) => {
             return (
-              <Col lg={4} sm={6} key={movie.id} className="pt-1 pb-1 d-flex">
+              <Col lg={3} sm={6} key={movie.id} className="pt-1 pb-1 d-flex">
                 <div className="movieContainer">
                   <div className="movieCard">
                     <div className="overlay hover-required">
@@ -150,6 +169,26 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
               </Col>
             );
           })}
+        </Row>
+        <Row className="pt-3">
+          <Col xs={12}>
+            <div className="d-flex justify-content-between">
+              <Button
+                className="mainBtn"
+                disabled={!prevPageUrl}
+                onClick={() => setPageNumber((prevNum) => prevNum - 1)}
+              >
+                Prev
+              </Button>
+              <Button
+                className="mainBtn"
+                disabled={!nextPageUrl}
+                onClick={() => setPageNumber((prevNum) => prevNum + 1)}
+              >
+                Next
+              </Button>
+            </div>
+          </Col>
         </Row>
       </Container>
     </React.Fragment>
