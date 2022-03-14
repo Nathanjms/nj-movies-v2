@@ -9,6 +9,7 @@ import {
   routes,
   tmdbImageUrl,
 } from "../../helpers/apiCommunication";
+import { perPage } from "../../helpers/movies"
 import MovieFormModal from "./MovieFormModal";
 import "../../css/Movies.css";
 
@@ -50,7 +51,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
           {
             params: {
               page: pageNumber,
-              perPage: 8, // TODO: Dynamic based on screen width
+              perPage: perPage(),
               // groupId: 1, // TODO: Add back in once group functionality has been developed
               watched: false, //TODO: Make this dynamic
             },
