@@ -59,7 +59,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
         setMovies(result.data.movies);
         setNextPageUrl(result.data.nextPageUrl);
         setPrevPageUrl(result.data.prevPageUrl);
-        console.log(result.data.nextPageUrl)
+        console.log(result.data.nextPageUrl);
       } catch (error: any) {
         if (error?.response?.status === 401) {
           localStorage.clear();
@@ -114,6 +114,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
                 onClick={() => {
                   console.log("Group Dialogue");
                 }}
+                disabled={true}
               >
                 <FaPeopleArrows /> Change Group
               </Button>
@@ -168,7 +169,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
             );
           })}
         </Row>
-        <Row>
+        <Row className="pt-3">
           <Col xs={12}>
             <div className="d-flex justify-content-between">
               <Button
