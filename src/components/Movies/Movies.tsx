@@ -169,19 +169,20 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
             );
           })}
         </Row>
-        <Row className="pt-3">
-          <Col xs={12}>
-            <div className="text-center">
-              <Button
-                className="mainBtn"
-                disabled={!nextPageUrl}
-                onClick={() => setPageNumber((prevNum) => prevNum + 1)}
-              >
-                Show More
-              </Button>
-            </div>
-          </Col>
-        </Row>
+        {nextPageUrl && (
+          <Row className="pt-3">
+            <Col xs={12}>
+              <div className="text-center">
+                <Button
+                  className="mainBtn"
+                  onClick={() => setPageNumber((prevNum) => prevNum + 1)}
+                >
+                  Show More
+                </Button>
+              </div>
+            </Col>
+          </Row>
+        )}
       </Container>
     </React.Fragment>
   );
