@@ -49,13 +49,17 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
           routes.movies.GET,
           {
             params: {
-              page: 1,
-              perPage: 10,
+              page: pageNumber,
+              perPage: 8, // TODO: Dynamic based on screen width
               // groupId: 1, // TODO: Add back in once group functionality has been developed
+              watched: false, //TODO: Make this dynamic
             },
           }
         );
         setMovies(result.data.movies);
+        setNextPageUrl(result.data.nextPageUrl);
+        setPrevPageUrl(result.data.prevPageUrl);
+        console.log(result.data.nextPageUrl)
       } catch (error: any) {
         if (error?.response?.status === 401) {
           localStorage.clear();
