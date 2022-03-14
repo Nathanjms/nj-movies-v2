@@ -86,7 +86,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
     buildMovies();
     setLoading(false);
     setLoading(false);
-  }, [navigate, token]);
+  }, [navigate, token, pageNumber]);
 
   if (loading) {
     return <h2>Loading...</h2>;
