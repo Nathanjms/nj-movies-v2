@@ -33,6 +33,9 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState<string>("");
   const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
+  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [nextPageUrl, setNextPageUrl] = useState<string | null>(null);
+  const [prevPageUrl, setPrevPageUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (!token) {
