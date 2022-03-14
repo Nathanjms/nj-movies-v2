@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { Alert, Button, Col, Container, Row } from "react-bootstrap";
-import { FaPlusSquare } from "react-icons/fa";
+import { FaPeopleArrows, FaPlusSquare } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthContext";
 import {
@@ -101,19 +101,29 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
       <Container className="section">
         <Row className="pt-1">
           <Col xs={12}>{error && <Alert variant="danger">{error}</Alert>}</Col>
-          <Col xs={12} className="text-start">
-            <Button
-              className="mainBtn"
-              onClick={() => setShowCreateModal(true)}
-            >
-              <FaPlusSquare /> Add New Movie
-            </Button>
+          <Col xs={12}>
+            <div className="d-flex justify-content-between">
+              <Button
+                className="mainBtn"
+                onClick={() => setShowCreateModal(true)}
+              >
+                <FaPlusSquare /> Add New Movie
+              </Button>
+              <Button
+                className="mainBtn"
+                onClick={() => {
+                  console.log("Group Dialogue");
+                }}
+              >
+                <FaPeopleArrows /> Change Group
+              </Button>
+            </div>
           </Col>
         </Row>
         <Row className="pt-3">
           {movies.map((movie) => {
             return (
-              <Col lg={4} sm={6} key={movie.id} className="pt-1 pb-1 d-flex">
+              <Col lg={3} sm={6} key={movie.id} className="pt-1 pb-1 d-flex">
                 <div className="movieContainer">
                   <div className="movieCard">
                     <div className="overlay hover-required">
