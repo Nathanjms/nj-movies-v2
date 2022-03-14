@@ -9,7 +9,7 @@ import {
   routes,
   tmdbImageUrl,
 } from "../../helpers/apiCommunication";
-import { perPage } from "../../helpers/movies"
+import { perPage } from "../../helpers/movies";
 import MovieFormModal from "./MovieFormModal";
 import "../../css/Movies.css";
 
@@ -33,10 +33,9 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState<string>("");
-  const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
-  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
   const [nextPageUrl, setNextPageUrl] = useState<string | null>(null);
-  const [prevPageUrl, setPrevPageUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (!token) {
@@ -57,10 +56,10 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
             },
           }
         );
-        setMovies(result.data.movies);
+        setMovies((oldMovies) => {
+          return oldMovies.concat(result.data.movies);
+        });
         setNextPageUrl(result.data.nextPageUrl);
-        setPrevPageUrl(result.data.prevPageUrl);
-        console.log(result.data.nextPageUrl);
       } catch (error: any) {
         if (error?.response?.status === 401) {
           localStorage.clear();
@@ -172,20 +171,13 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
         </Row>
         <Row className="pt-3">
           <Col xs={12}>
-            <div className="d-flex justify-content-between">
-              <Button
-                className="mainBtn"
-                disabled={!prevPageUrl}
-                onClick={() => setPageNumber((prevNum) => prevNum - 1)}
-              >
-                Prev
-              </Button>
+            <div className="text-center">
               <Button
                 className="mainBtn"
                 disabled={!nextPageUrl}
                 onClick={() => setPageNumber((prevNum) => prevNum + 1)}
               >
-                Next
+                Show More
               </Button>
             </div>
           </Col>
