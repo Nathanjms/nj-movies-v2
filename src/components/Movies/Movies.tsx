@@ -1,5 +1,13 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { Alert, Button, Col, Container, Row } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  Col,
+  Container,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { FaPeopleArrows, FaPlusSquare } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthContext";
@@ -109,15 +117,21 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
               >
                 <FaPlusSquare /> Add New Movie
               </Button>
-              <Button
-                className="mainBtn"
-                onClick={() => {
-                  console.log("Group Dialogue");
-                }}
-                disabled={true}
+              <OverlayTrigger
+                overlay={<Tooltip id="tooltip-disabled">Coming Soon!</Tooltip>}
               >
-                <FaPeopleArrows /> Change Group
-              </Button>
+                <span className="d-inline-block">
+                  <Button
+                    className="mainBtn"
+                    onClick={() => {
+                      console.log("Group Dialogue");
+                    }}
+                    disabled={true}
+                  >
+                    <FaPeopleArrows /> Change Group
+                  </Button>
+                </span>
+              </OverlayTrigger>
             </div>
           </Col>
         </Row>
