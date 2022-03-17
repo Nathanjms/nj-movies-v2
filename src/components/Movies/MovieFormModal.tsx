@@ -54,8 +54,8 @@ export default function MovieFormModal({
         }
       );
       if (result?.data?.success) {
-        setShowCreateModal(false);
         buildMovies(true);
+        setShowCreateModal(false);
         return;
       }
       setError("Unsuccessful response from server!");

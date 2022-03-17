@@ -50,8 +50,6 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
       if (!token) {
         return;
       }
-      setError("");
-      setLoading(true);
       try {
         const result = await AuthenticatedRequest(token).get(
           routes.movies.GET,
@@ -72,7 +70,6 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
           });
         }
         setNextPageUrl(result.data.nextPageUrl);
-        setLoading(false);
       } catch (error: any) {
         if (error?.response?.status === 401) {
           localStorage.clear();
@@ -101,7 +98,10 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
 
   // Build movies on load
   useEffect(() => {
+    setError("");
+    setLoading(true);
     buildMovies();
+    setLoading(false);
   }, [buildMovies]);
 
   if (loading) {
