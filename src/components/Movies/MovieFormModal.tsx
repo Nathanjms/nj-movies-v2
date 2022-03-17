@@ -11,8 +11,9 @@ import {
 } from "../../helpers/apiCommunication";
 import { useNavigate } from "react-router-dom";
 import { SelectInstance } from "react-select/dist/declarations/src";
+import { Movie } from "./Movies";
 
-interface Movie {
+interface MovieSearch {
   title: string;
   tmdbId: string;
   posterPath: string;
@@ -23,16 +24,18 @@ interface MovieFormModalProps {
   setShowCreateModal: (show: boolean) => void;
   show: boolean;
   buildMovies: (rebuild?: boolean) => Promise<void>;
+  setMovies: React.Dispatch<React.SetStateAction<Movie[]>>;
 }
 
 export default function MovieFormModal({
   setShowCreateModal,
   show,
   buildMovies,
+  setMovies,
 }: MovieFormModalProps): ReactElement {
-  const [movie, setMovie] = useState<Movie | null>(null);
+  const [movie, setMovie] = useState<MovieSearch | null>(null);
   const [loading, setLoading] = useState(false);
-  const selectRef = useRef<SelectInstance<Movie> | null>(null);
+  const selectRef = useRef<SelectInstance<MovieSearch> | null>(null);
   const [error, setError] = useState("");
   const { token, setUser, setToken } = useAuth();
   const navigate = useNavigate();
@@ -54,7 +57,25 @@ export default function MovieFormModal({
         }
       );
       if (result?.data?.success) {
-        buildMovies(true);
+        // buildMovies(true);
+        // Fake movie type so we don;t have to make another api call:
+        setMovies((oldMovies) => {
+          return [
+            {
+              id: result.data.movieId as number,
+              title: movie.title,
+              tmdb_id: movie.tmdbId,
+              poster_path: movie.posterPath,
+              backdrop_path: movie.backdropPath,
+              created_at: "",
+              created_by: -1,
+              rating: null,
+              seen: false,
+              group_id: 0,
+            },
+            ...oldMovies,
+          ];
+        });
         setShowCreateModal(false);
         return;
       }
@@ -95,7 +116,7 @@ export default function MovieFormModal({
           "Content-Type": "application/json",
         },
       });
-      let movies: Movie[];
+      let movies: MovieSearch[];
 
       movies = request.data.results.map((movie: APIMovie) => {
         return {
@@ -120,7 +141,7 @@ export default function MovieFormModal({
   let searchTimeout: NodeJS.Timeout;
   const loadOptions = (
     inputValue: string,
-    callback: (movies: Movie[]) => void
+    callback: (movies: MovieSearch[]) => void
   ) => {
     clearTimeout(searchTimeout);
 

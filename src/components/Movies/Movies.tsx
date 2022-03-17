@@ -22,13 +22,13 @@ import MovieFormModal from "./MovieFormModal";
 import "../../css/Movies.css";
 
 interface MoviesProps {}
-interface Movie {
+export interface Movie {
   id: number;
   title: string;
   tmdb_id: string;
   poster_path: string;
   backdrop_path: string;
-  rating: number;
+  rating: number | null;
   seen: boolean;
   group_id: number | null;
   created_by: number;
@@ -114,6 +114,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
         setShowCreateModal={setShowCreateModal}
         show={showCreateModal}
         buildMovies={buildMovies}
+        setMovies={setMovies}
       />
       <Container className="section">
         <Row className="pt-1">
@@ -155,8 +156,10 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
                         <h4>{movie.title}</h4>
                         <div className="overlayBody">
                           <p>
-                            Added on{" "}
-                            {new Date(movie.created_at).toLocaleDateString()}
+                            Added {" "}
+                            {movie.created_at
+                              ? new Date(movie.created_at).toLocaleDateString()
+                              : "Just Now"}
                           </p>
                           <Button style={{ opacity: 1 }}>Watched it!</Button>
                         </div>
