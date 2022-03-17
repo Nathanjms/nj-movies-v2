@@ -54,7 +54,7 @@ export default function MovieFormModal({
         }
       );
       if (result?.data?.success) {
-        buildMovies(true);
+        buildMovies(true); // Bug: if page number !== 1, this will currently load the wrong page!
         setShowCreateModal(false);
         return;
       }
