@@ -3,7 +3,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import { AuthContext } from "../Auth/AuthContext";
 
 interface UserGreetingProps {
-  userName: string | null;
+  userName: string | undefined;
 }
 const UserGreeting = ({ userName }: UserGreetingProps): ReactElement | null => {
   if (!userName) {
@@ -30,7 +30,7 @@ function Home() {
             <h1>Movies</h1>
           </Col>
           <h2>
-            <UserGreeting userName={authContext.user} />
+            <UserGreeting userName={authContext?.user?.name} />
           </h2>
         </Row>
       </Container>
