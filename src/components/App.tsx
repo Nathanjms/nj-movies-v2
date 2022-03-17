@@ -17,7 +17,7 @@ import Demo from "./Movies/Demo";
 import Watched from "./Movies/Watched";
 import Random from "./Movies/Random";
 import About from "./Movies/About";
-import { AuthContext, useAuth, UserMovieGroup } from "./Auth/AuthContext";
+import { AuthContext, useAuth, User, UserMovieGroup } from "./Auth/AuthContext";
 import Login from "./Auth/Login";
 import { AuthenticatedRequest } from "../helpers/apiCommunication";
 
@@ -38,7 +38,7 @@ function App(): JSX.Element {
     return tokenVal;
   };
   const [token, setToken] = useState<string | null>(handleTokenExpiry());
-  const [user, setUser] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [userMovieGroup, setUserMovieGroup] = useState<UserMovieGroup | null>(
     null
   );
@@ -52,7 +52,7 @@ function App(): JSX.Element {
     const buildUsersName = async () => {
       try {
         const result = await AuthenticatedRequest(token).get("/api/users");
-        setUser(result.data.name);
+        setUser({ name: result.data.name, id: result.data.id });
       } catch (error: any) {
         localStorage.clear();
       }
