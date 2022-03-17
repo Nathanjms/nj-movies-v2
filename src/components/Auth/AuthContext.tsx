@@ -9,6 +9,7 @@ export interface User {
   name: string;
   id: number;
 }
+
 interface AuthContextProps {
   token: string | null;
   setToken: (state: string | null) => void;
@@ -31,4 +32,4 @@ export const AuthContext = createContext<AuthContextProps>(AuthContextDefaults);
 
 export const useAuth = () => {
   return useContext(AuthContext);
-}
+};
