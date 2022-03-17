@@ -37,7 +37,7 @@ export default function MovieFormModal({
   const [loading, setLoading] = useState(false);
   const selectRef = useRef<SelectInstance<MovieSearch> | null>(null);
   const [error, setError] = useState("");
-  const { token, setUser, setToken } = useAuth();
+  const { user, token, setUser, setToken } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -68,7 +68,7 @@ export default function MovieFormModal({
               poster_path: movie.posterPath,
               backdrop_path: movie.backdropPath,
               created_at: "",
-              created_by: -1,
+              created_by: user?.id ? user.id : -1,
               rating: null,
               seen: false,
               group_id: 0,
