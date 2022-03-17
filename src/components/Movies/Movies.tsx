@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState, useCallback } from "react";
 import {
   Alert,
   Button,
@@ -45,11 +45,11 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
   const [pageNumber, setPageNumber] = useState(1);
   const [nextPageUrl, setNextPageUrl] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!token) {
-      return;
-    }
-    const buildMovies = async () => {
+  const buildMovies = useCallback(
+    async (rebuild: boolean = false) => {
+      if (!token) {
+        return;
+      }
       setError("");
       setLoading(true);
       try {
@@ -64,10 +64,15 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
             },
           }
         );
-        setMovies((oldMovies) => {
-          return oldMovies.concat(result.data.movies);
-        });
+        if (rebuild) {
+          setMovies(result.data.movies);
+        } else {
+          setMovies((oldMovies) => {
+            return oldMovies.concat(result.data.movies);
+          });
+        }
         setNextPageUrl(result.data.nextPageUrl);
+        setLoading(false);
       } catch (error: any) {
         if (error?.response?.status === 401) {
           localStorage.clear();
@@ -90,11 +95,14 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
           return;
         }
       }
-    };
+    },
+    [token, pageNumber, navigate]
+  );
+
+  // Build movies on load
+  useEffect(() => {
     buildMovies();
-    setLoading(false);
-    setLoading(false);
-  }, [navigate, token, pageNumber]);
+  }, [buildMovies]);
 
   if (loading) {
     return <h2>Loading...</h2>;
@@ -105,6 +113,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
       <MovieFormModal
         setShowCreateModal={setShowCreateModal}
         show={showCreateModal}
+        buildMovies={buildMovies}
       />
       <Container className="section">
         <Row className="pt-1">

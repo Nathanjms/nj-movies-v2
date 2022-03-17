@@ -22,11 +22,13 @@ interface Movie {
 interface MovieFormModalProps {
   setShowCreateModal: (show: boolean) => void;
   show: boolean;
+  buildMovies: (rebuild?: boolean) => Promise<void>;
 }
 
 export default function MovieFormModal({
   setShowCreateModal,
   show,
+  buildMovies,
 }: MovieFormModalProps): ReactElement {
   const [movie, setMovie] = useState<Movie | null>(null);
   const [loading, setLoading] = useState(false);
@@ -53,6 +55,7 @@ export default function MovieFormModal({
       );
       if (result?.data?.success) {
         setShowCreateModal(false);
+        buildMovies(true);
         return;
       }
       setError("Unsuccessful response from server!");
