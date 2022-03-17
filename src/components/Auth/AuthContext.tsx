@@ -4,11 +4,16 @@ export interface UserMovieGroup {
   name: string;
   groupId: string;
 }
+
+export interface User {
+  name: string;
+  id: number;
+}
 interface AuthContextProps {
   token: string | null;
   setToken: (state: string | null) => void;
-  user: string | null;
-  setUser: (state: string | null) => void;
+  user: User | null;
+  setUser: (state: User | null) => void;
   userMovieGroup: UserMovieGroup | null;
   setUserMovieGroup: (state: UserMovieGroup | null) => void;
 }

@@ -30,7 +30,9 @@ function Home() {
             <h1>Movies</h1>
           </Col>
           <h2>
-            <UserGreeting userName={authContext.user} />
+            {authContext?.user?.name && (
+              <UserGreeting userName={authContext.user.name} />
+            )}
           </h2>
         </Row>
       </Container>
