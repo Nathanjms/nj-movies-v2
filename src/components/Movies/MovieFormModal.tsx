@@ -71,15 +71,11 @@ export default function MovieFormModal({
       }
       if (error?.response?.data?.message) {
         setError(error.response.data.message);
-        return;
+      } else if (error?.message) {
+        setError(error.message);
+      } else {
+        setError("Unexpected error :c");
       }
-      if (error?.message) {
-        navigate("/login");
-        return;
-      }
-    } finally {
-      setLoading(false);
-      setMovie(null);
     }
   };
 
