@@ -77,8 +77,9 @@ a:hover {
   padding-top: 10px;
 }
 
-.section {
-  padding-block: 20px;
+#header {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 body {
@@ -90,6 +91,7 @@ body {
 #body {
   min-height: 80vh;
   text-align: left;
+  padding-bottom: 1rem;
 }
 
 .App-link {
@@ -166,7 +168,6 @@ body {
 
 .mainBtn {
   color: var(--dark2);
-  padding: 10px 20px;
   transition: 0.3s;
   font-size: 15px;
   border-radius: 1.5rem;
