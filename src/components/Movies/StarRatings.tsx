@@ -8,14 +8,17 @@ interface StarRatingsProps {
   movieId: number;
   movieRating: number;
   authenticatedRequest: AxiosInstance;
+  overlay?: boolean;
 }
 
 export const StarRatings: React.FC<StarRatingsProps> = ({
   movieId,
   movieRating,
   authenticatedRequest,
+  overlay = false
 }) => {
   const starRatings = [5, 4, 3, 2, 1];
+  let identifier = overlay ? "overlay" : "noOverlay"
 
   const handleChange = async (starRating: number) => {
     try {
@@ -37,16 +40,16 @@ export const StarRatings: React.FC<StarRatingsProps> = ({
           return (
             <React.Fragment key={index}>
               <input
-                id={`star-${starRating}-${movieId}`}
-                className={`star-${starRating}-${movieId}`}
+                id={`star-${starRating}-${movieId}-${identifier}`}
+                className={`star-${starRating}-${movieId}-${identifier}`}
                 type="radio"
-                name={`rating-${movieId}`}
-                value={`star-${starRating}-${movieId}`}
+                name={`rating-${movieId}-${identifier}`}
+                value={`star-${starRating}-${movieId}-${identifier}`}
                 defaultChecked={starRating === movieRating}
                 onClick={() => handleChange(starRating)}
               ></input>
               <label
-                htmlFor={`star-${starRating}-${movieId}`}
+                htmlFor={`star-${starRating}-${movieId}-${identifier}`}
                 title={`${starRating} stars`}
               >
                 <FaStar className="active" aria-hidden="true" />

@@ -189,6 +189,7 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                             authenticatedRequest={AuthenticatedRequest(
                               token ?? ""
                             )}
+                            overlay={true}
                           />
                         )}
                       </div>
