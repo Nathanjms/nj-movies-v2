@@ -84,7 +84,7 @@ function App(): JSX.Element {
                 path="/"
                 element={
                   <RequireAuth>
-                    <Movies />
+                    <Movies watched={false}/>
                   </RequireAuth>
                 }
               />
@@ -92,7 +92,7 @@ function App(): JSX.Element {
                 path="/watched"
                 element={
                   <RequireAuth>
-                    <Watched />
+                    <Movies watched={true} />
                   </RequireAuth>
                 }
               />

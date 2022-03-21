@@ -22,7 +22,13 @@ import MovieFormModal from "./MovieFormModal";
 import "../../css/Movies.css";
 import { AxiosResponse } from "axios";
 
-interface MoviesProps {}
+interface MoviesProps {
+  watched: boolean;
+}
+
+interface MovieListProps {
+  movies: Movie[];
+}
 interface Movie {
   id: number;
   title: string;
@@ -36,7 +42,62 @@ interface Movie {
   created_at: string;
 }
 
-export const Movies: React.FC<MoviesProps> = (): ReactElement => {
+const MovieList: React.FC<MovieListProps> = ({ movies }): ReactElement => {
+  if (movies.length === 0) {
+    return <p>No Movies!</p>;
+  }
+  return (
+    <>
+      {movies.map((movie) => {
+        return (
+          <Col lg={3} sm={6} key={movie.id} className="pt-1 pb-1 d-flex">
+            <div className="movieContainer">
+              <div className="movieCard">
+                <div className="overlay hover-required">
+                  <div className="p-3">
+                    <h4>{movie.title}</h4>
+                    <div className="overlayBody">
+                      <p>
+                        Added on{" "}
+                        {new Date(movie.created_at).toLocaleDateString()}
+                      </p>
+                      <Button style={{ opacity: 1 }}>Watched it!</Button>
+                    </div>
+                  </div>
+                </div>
+                <img
+                  className="backdropImg"
+                  src={
+                    movie.backdrop_path
+                      ? tmdbImageUrl + posterSizes.lg + movie.backdrop_path
+                      : "/backdrop404.svg"
+                  }
+                  alt={movie.title + " poster"}
+                  loading="lazy"
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null; // prevents looping
+                    currentTarget.src = "/tmdbLogo.svg";
+                  }}
+                />
+                <div className="movieTitle p-2">
+                  <h4>{movie.title}</h4>
+                  <div className="overlayBody no-hover">
+                    <p>
+                      Added on {new Date(movie.created_at).toLocaleDateString()}
+                    </p>
+                    <Button style={{ opacity: 1 }}>Watched it!</Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Col>
+        );
+      })}
+    </>
+  );
+};
+
+export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
   const { token } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -62,7 +123,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
               page: 1,
               perPage: perPage(),
               // groupId: 1, // TODO: Add back in once group functionality has been developed
-              watched: false, //TODO: Make this dynamic
+              watched: watched, //TODO: Make this dynamic
             },
           });
         }
@@ -149,52 +210,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
           </Col>
         </Row>
         <Row className="pt-3">
-          {movies.map((movie) => {
-            return (
-              <Col lg={3} sm={6} key={movie.id} className="pt-1 pb-1 d-flex">
-                <div className="movieContainer">
-                  <div className="movieCard">
-                    <div className="overlay hover-required">
-                      <div className="p-3">
-                        <h4>{movie.title}</h4>
-                        <div className="overlayBody">
-                          <p>
-                            Added on{" "}
-                            {new Date(movie.created_at).toLocaleDateString()}
-                          </p>
-                          <Button style={{ opacity: 1 }}>Watched it!</Button>
-                        </div>
-                      </div>
-                    </div>
-                    <img
-                      className="backdropImg"
-                      src={
-                        movie.backdrop_path
-                          ? tmdbImageUrl + posterSizes.lg + movie.backdrop_path
-                          : "/backdrop404.svg"
-                      }
-                      alt={movie.title + " poster"}
-                      loading="lazy"
-                      onError={({ currentTarget }) => {
-                        currentTarget.onerror = null; // prevents looping
-                        currentTarget.src = "/tmdbLogo.svg";
-                      }}
-                    />
-                    <div className="movieTitle p-2">
-                      <h4>{movie.title}</h4>
-                      <div className="overlayBody no-hover">
-                        <p>
-                          Added on{" "}
-                          {new Date(movie.created_at).toLocaleDateString()}
-                        </p>
-                        <Button style={{ opacity: 1 }}>Watched it!</Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-            );
-          })}
+          <MovieList movies={movies} />
         </Row>
         {nextPageUrl && (
           <Row className="pt-3">
