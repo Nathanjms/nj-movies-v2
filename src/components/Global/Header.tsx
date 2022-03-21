@@ -11,7 +11,7 @@ const UserGreeting = ({ userName }: UserGreetingProps): ReactElement | null => {
   }
   return (
     <Col xs={12} className="text-start">
-      <span>Hi, {userName}</span>
+      <h3>Hi, {userName}</h3>
     </Col>
   );
 };
@@ -29,9 +29,7 @@ function Home() {
             </span>
             <h1>Movies</h1>
           </Col>
-          <h2>
-            <UserGreeting userName={authContext?.user?.name} />
-          </h2>
+          <UserGreeting userName={authContext?.user?.name} />
         </Row>
       </Container>
     </div>

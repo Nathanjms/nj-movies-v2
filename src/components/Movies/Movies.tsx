@@ -167,7 +167,7 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                 <div className="movieCard">
                   <div className="overlay hover-required">
                     <div className="p-3">
-                      <h4>{movie.title}</h4>
+                      <h5>{movie.title}</h5>
                       <div className="overlayBody">
                         <span>
                           Added on{" "}
@@ -175,12 +175,15 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                           {new Date(movie.created_at).toLocaleDateString()}
                         </span>
                         {!watched && (
-                          <Button
-                            onClick={() => markAsSeen(movie.id, movie.title)}
-                            style={{ opacity: 1 }}
-                          >
-                            Watched it!
-                          </Button>
+                          <>
+                            <br /><br />
+                            <Button
+                              onClick={() => markAsSeen(movie.id, movie.title)}
+                              style={{ opacity: 1 }}
+                            >
+                              Watched it!
+                            </Button>
+                          </>
                         )}
                         {watched && (
                           <StarRatings
@@ -210,16 +213,19 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                     }}
                   />
                   <div className="movieTitle p-2">
-                    <h4>{movie.title}</h4>
+                    <h5>{movie.title}</h5>
                     <div className="overlayBody no-hover">
                       <span>
                         Added on{" "}
                         {new Date(movie.created_at).toLocaleDateString()}
                       </span>
                       {!watched && (
-                        <Button disabled={loading} style={{ opacity: 1 }}>
-                          Watched it!
-                        </Button>
+                        <>
+                          <br /><br />
+                          <Button disabled={loading} style={{ opacity: 1 }}>
+                            Watched it!
+                          </Button>
+                        </>
                       )}
                       {watched && (
                         <StarRatings
@@ -290,7 +296,7 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
       <Container className="section">
         <Row className="pt-1">
           <Col xs={12}>{error && <Alert variant="danger">{error}</Alert>}</Col>
-          <Col xs={12} className="pb-1">
+          <Col xs={12} className="pb-1 text-center">
             <h4>Your {watched ? "Watched" : "Unseen"} Movies</h4>
           </Col>
           <Col xs={12}>
