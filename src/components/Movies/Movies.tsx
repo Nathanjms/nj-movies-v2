@@ -21,6 +21,7 @@ import { perPage } from "../../helpers/movies";
 import MovieFormModal from "./MovieFormModal";
 import "../../css/Movies.css";
 import { AxiosResponse } from "axios";
+import toast, { Toaster } from "react-hot-toast";
 
 interface MoviesProps {
   watched: boolean;
@@ -46,17 +47,22 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
   const { token } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [canLoadMore, setCanLoadMore] = useState(true);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState<string>("");
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [nextPageUrl, setNextPageUrl] = useState<string | null>(null);
 
   const buildMovies = useCallback(
-    async (queryUrl: string | null = null) => {
+    async (queryUrl: string | null = null, loadMoreState: boolean = false) => {
       if (!token) {
         return;
       }
-      setLoading(true);
+      if (loadMoreState) {
+        setCanLoadMore(true);
+      } else {
+        setLoading(true);
+      }
       try {
         let result: AxiosResponse<any, any>;
         if (queryUrl) {
@@ -102,14 +108,17 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
         } else {
           setError("Unexpected error :c");
         }
-        setLoading(false);
+        if (loadMoreState) {
+          setCanLoadMore(false);
+        } else {
+          setLoading(false);
+        }
       }
     },
     [token, navigate, watched]
   );
 
-  const markAsSeen = async (movieId: number) => {
-    console.log(movieId);
+  const markAsSeen = async (movieId: number, movieName: string) => {
     if (!token) {
       // Set error here
       return;
@@ -124,6 +133,7 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
       );
       if (result?.data?.success) {
         buildMovies(); // Do not pass query URL to load movie list page 1.
+        toast.success(`${movieName} marked as seen!`);
         return;
       }
       setError("Unsuccessful response from server!");
@@ -163,12 +173,14 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                           {/* TODO: change to 'seen on' for watched movies */}
                           {new Date(movie.created_at).toLocaleDateString()}
                         </p>
-                        <Button
-                          onClick={() => markAsSeen(movie.id)}
-                          style={{ opacity: 1 }}
-                        >
-                          Watched it!
-                        </Button>
+                        {!watched && (
+                          <Button
+                            onClick={() => markAsSeen(movie.id, movie.title)}
+                            style={{ opacity: 1 }}
+                          >
+                            Watched it!
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -193,9 +205,11 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                         Added on{" "}
                         {new Date(movie.created_at).toLocaleDateString()}
                       </p>
-                      <Button disabled={loading} style={{ opacity: 1 }}>
-                        Watched it!
-                      </Button>
+                      {!watched && (
+                        <Button disabled={loading} style={{ opacity: 1 }}>
+                          Watched it!
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -208,9 +222,9 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
             <Col xs={12}>
               <div className="text-center">
                 <Button
-                  disabled={loading}
+                  disabled={!canLoadMore}
                   className="mainBtn"
-                  onClick={() => buildMovies(nextPageUrl)}
+                  onClick={() => buildMovies(nextPageUrl, true)}
                 >
                   Show More
                 </Button>
@@ -230,6 +244,24 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
 
   return (
     <React.Fragment>
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          success: {
+            style: {
+              background: "#363636",
+              color: "#fff",
+            },
+          },
+          error: {
+            style: {
+              background: "#363636",
+              color: "#fff",
+            },
+          },
+        }}
+      />
       <MovieFormModal
         setShowCreateModal={setShowCreateModal}
         show={showCreateModal}
