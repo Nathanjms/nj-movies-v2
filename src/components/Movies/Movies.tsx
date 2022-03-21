@@ -22,6 +22,7 @@ import MovieFormModal from "./MovieFormModal";
 import "../../css/Movies.css";
 import { AxiosResponse } from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { StarRatings } from "./StarRatings";
 
 interface MoviesProps {
   watched: boolean;
@@ -168,11 +169,11 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                     <div className="p-3">
                       <h4>{movie.title}</h4>
                       <div className="overlayBody">
-                        <p>
+                        <span>
                           Added on{" "}
                           {/* TODO: change to 'seen on' for watched movies */}
                           {new Date(movie.created_at).toLocaleDateString()}
-                        </p>
+                        </span>
                         {!watched && (
                           <Button
                             onClick={() => markAsSeen(movie.id, movie.title)}
@@ -180,6 +181,15 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                           >
                             Watched it!
                           </Button>
+                        )}
+                        {watched && (
+                          <StarRatings
+                            movieId={movie.id}
+                            movieRating={movie.rating ?? 0}
+                            authenticatedRequest={AuthenticatedRequest(
+                              token ?? ""
+                            )}
+                          />
                         )}
                       </div>
                     </div>
@@ -201,14 +211,23 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                   <div className="movieTitle p-2">
                     <h4>{movie.title}</h4>
                     <div className="overlayBody no-hover">
-                      <p>
+                      <span>
                         Added on{" "}
                         {new Date(movie.created_at).toLocaleDateString()}
-                      </p>
+                      </span>
                       {!watched && (
                         <Button disabled={loading} style={{ opacity: 1 }}>
                           Watched it!
                         </Button>
+                      )}
+                      {watched && (
+                        <StarRatings
+                          movieId={movie.id}
+                          movieRating={movie.rating ?? 0}
+                          authenticatedRequest={AuthenticatedRequest(
+                            token ?? ""
+                          )}
+                        />
                       )}
                     </div>
                   </div>
