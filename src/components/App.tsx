@@ -83,7 +83,7 @@ function App(): JSX.Element {
                 path="/"
                 element={
                   <RequireAuth>
-                    <Movies watched={false}/>
+                    <Movies watched={false} />
                   </RequireAuth>
                 }
               />

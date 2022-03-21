@@ -113,6 +113,7 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
         } else {
           setLoading(false);
         }
+        setLoading(false);
       }
     },
     [token, navigate, watched]
