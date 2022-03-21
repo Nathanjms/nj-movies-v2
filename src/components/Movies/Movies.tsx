@@ -69,7 +69,7 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
               page: 1,
               perPage: perPage(),
               // groupId: 1, // TODO: Add back in once group functionality has been developed
-              watched: watched, //TODO: Make this dynamic
+              watched: watched,
             },
           });
         }
@@ -202,15 +202,20 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
       <Container className="section">
         <Row className="pt-1">
           <Col xs={12}>{error && <Alert variant="danger">{error}</Alert>}</Col>
+          <Col xs={12} className="pb-1">
+            <h4>Your {watched ? "Watched" : "Unseen"} Movies</h4>
+          </Col>
           <Col xs={12}>
             <div className="d-flex justify-content-between">
-              <Button
-                className="mainBtn"
-                disabled={loading}
-                onClick={() => setShowCreateModal(true)}
-              >
-                <FaPlusSquare /> Add New Movie
-              </Button>
+              {!watched && (
+                <Button
+                  className="mainBtn"
+                  disabled={loading}
+                  onClick={() => setShowCreateModal(true)}
+                >
+                  <FaPlusSquare /> Add New Movie
+                </Button>
+              )}
               <OverlayTrigger
                 overlay={<Tooltip id="tooltip-disabled">Coming Soon!</Tooltip>}
               >
