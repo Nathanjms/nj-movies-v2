@@ -22,7 +22,7 @@ interface Movie {
 interface MovieFormModalProps {
   setShowCreateModal: (show: boolean) => void;
   show: boolean;
-  buildMovies: (rebuild?: boolean) => Promise<void>;
+  buildMovies: (nextPageUrl?: string | null) => Promise<void>;
 }
 
 export default function MovieFormModal({
@@ -54,7 +54,7 @@ export default function MovieFormModal({
         }
       );
       if (result?.data?.success) {
-        buildMovies(true); // Bug: if page number !== 1, this will currently load the wrong page!
+        buildMovies(); // Do not pass query URL to load movie list page 1.
         setShowCreateModal(false);
         return;
       }

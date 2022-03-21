@@ -20,6 +20,7 @@ import {
 import { perPage } from "../../helpers/movies";
 import MovieFormModal from "./MovieFormModal";
 import "../../css/Movies.css";
+import { AxiosResponse } from "axios";
 
 interface MoviesProps {}
 interface Movie {
@@ -42,27 +43,30 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState<string>("");
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [pageNumber, setPageNumber] = useState(1);
   const [nextPageUrl, setNextPageUrl] = useState<string | null>(null);
 
   const buildMovies = useCallback(
-    async (rebuild: boolean = false) => {
+    async (queryUrl: string | null = null) => {
       if (!token) {
         return;
       }
       try {
-        const result = await AuthenticatedRequest(token).get(
-          routes.movies.GET,
-          {
+        let result: AxiosResponse<any, any>;
+        if (queryUrl) {
+          // Add to existing list if not page 1
+          result = await AuthenticatedRequest(token).get(queryUrl);
+        } else {
+          // Get page 1 movies
+          result = await AuthenticatedRequest(token).get(routes.movies.GET, {
             params: {
-              page: pageNumber,
+              page: 1,
               perPage: perPage(),
               // groupId: 1, // TODO: Add back in once group functionality has been developed
               watched: false, //TODO: Make this dynamic
             },
-          }
-        );
-        if (rebuild) {
+          });
+        }
+        if (!queryUrl) {
           setMovies(result.data.movies);
         } else {
           setMovies((oldMovies) => {
@@ -93,14 +97,14 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
         }
       }
     },
-    [token, pageNumber, navigate]
+    [token, navigate]
   );
 
   // Build movies on load
   useEffect(() => {
     setError("");
     setLoading(true);
-    buildMovies();
+    buildMovies(null);
     setLoading(false);
   }, [buildMovies]);
 
@@ -198,7 +202,7 @@ export const Movies: React.FC<MoviesProps> = (): ReactElement => {
               <div className="text-center">
                 <Button
                   className="mainBtn"
-                  onClick={() => setPageNumber((prevNum) => prevNum + 1)}
+                  onClick={() => buildMovies(nextPageUrl)}
                 >
                   Show More
                 </Button>
