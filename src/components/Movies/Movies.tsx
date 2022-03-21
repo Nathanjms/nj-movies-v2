@@ -42,61 +42,6 @@ interface Movie {
   created_at: string;
 }
 
-const MovieList: React.FC<MovieListProps> = ({ movies }): ReactElement => {
-  if (movies.length === 0) {
-    return <p>No Movies!</p>;
-  }
-  return (
-    <>
-      {movies.map((movie) => {
-        return (
-          <Col lg={3} sm={6} key={movie.id} className="pt-1 pb-1 d-flex">
-            <div className="movieContainer">
-              <div className="movieCard">
-                <div className="overlay hover-required">
-                  <div className="p-3">
-                    <h4>{movie.title}</h4>
-                    <div className="overlayBody">
-                      <p>
-                        Added on{" "}
-                        {new Date(movie.created_at).toLocaleDateString()}
-                      </p>
-                      <Button style={{ opacity: 1 }}>Watched it!</Button>
-                    </div>
-                  </div>
-                </div>
-                <img
-                  className="backdropImg"
-                  src={
-                    movie.backdrop_path
-                      ? tmdbImageUrl + posterSizes.lg + movie.backdrop_path
-                      : "/backdrop404.svg"
-                  }
-                  alt={movie.title + " poster"}
-                  loading="lazy"
-                  onError={({ currentTarget }) => {
-                    currentTarget.onerror = null; // prevents looping
-                    currentTarget.src = "/tmdbLogo.svg";
-                  }}
-                />
-                <div className="movieTitle p-2">
-                  <h4>{movie.title}</h4>
-                  <div className="overlayBody no-hover">
-                    <p>
-                      Added on {new Date(movie.created_at).toLocaleDateString()}
-                    </p>
-                    <Button style={{ opacity: 1 }}>Watched it!</Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Col>
-        );
-      })}
-    </>
-  );
-};
-
 export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
   const { token } = useAuth();
   const navigate = useNavigate();
@@ -111,6 +56,7 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
       if (!token) {
         return;
       }
+      setLoading(true);
       try {
         let result: AxiosResponse<any, any>;
         if (queryUrl) {
@@ -123,7 +69,7 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
               page: 1,
               perPage: perPage(),
               // groupId: 1, // TODO: Add back in once group functionality has been developed
-              watched: watched, //TODO: Make this dynamic
+              watched: watched,
             },
           });
         }
@@ -135,6 +81,7 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
           });
         }
         setNextPageUrl(result.data.nextPageUrl);
+        setLoading(false);
       } catch (error: any) {
         if (error?.response?.status === 401) {
           localStorage.clear();
@@ -150,28 +97,136 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
         }
         if (error?.response?.data?.message) {
           setError(error.response.data.message);
-          return;
+        } else if (error?.message) {
+          setError(error.message);
+        } else {
+          setError("Unexpected error :c");
         }
-        if (error?.message) {
-          navigate("/login");
-          return;
-        }
+        setLoading(false);
       }
     },
-    [token, navigate]
+    [token, navigate, watched]
   );
+
+  const markAsSeen = async (movieId: number) => {
+    console.log(movieId);
+    if (!token) {
+      // Set error here
+      return;
+    }
+    try {
+      const result = await AuthenticatedRequest(token).patch(
+        routes.movies.MARK_SEEN,
+        {
+          movieId: movieId,
+          seen: true,
+        }
+      );
+      if (result?.data?.success) {
+        buildMovies(); // Do not pass query URL to load movie list page 1.
+        return;
+      }
+      setError("Unsuccessful response from server!");
+    } catch (error: any) {
+      if (error?.response?.data?.message) {
+        setError(error.response.data.message);
+      } else if (error?.message) {
+        setError(error.message);
+      } else {
+        setError("Unexpected error :c");
+      }
+    }
+  };
+
+  const MovieList: React.FC<MovieListProps> = ({ movies }): ReactElement => {
+    if (movies.length === 0) {
+      return <h3>No Movies!</h3>;
+    }
+    return (
+      <>
+        {movies.map((movie) => {
+          return (
+            <Col
+              lg={3}
+              sm={6}
+              key={movie.id}
+              className={"pt-1 pb-1 d-flex " + (loading ? "loadingBlur" : "")}
+            >
+              <div className="movieContainer">
+                <div className="movieCard">
+                  <div className="overlay hover-required">
+                    <div className="p-3">
+                      <h4>{movie.title}</h4>
+                      <div className="overlayBody">
+                        <p>
+                          Added on{" "}
+                          {/* TODO: change to 'seen on' for watched movies */}
+                          {new Date(movie.created_at).toLocaleDateString()}
+                        </p>
+                        <Button
+                          onClick={() => markAsSeen(movie.id)}
+                          style={{ opacity: 1 }}
+                        >
+                          Watched it!
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                  <img
+                    className="backdropImg"
+                    src={
+                      movie.backdrop_path
+                        ? tmdbImageUrl + posterSizes.lg + movie.backdrop_path
+                        : "/backdrop404.svg"
+                    }
+                    alt={movie.title + " poster"}
+                    loading="lazy"
+                    onError={({ currentTarget }) => {
+                      currentTarget.onerror = null; // prevents looping
+                      currentTarget.src = "/tmdbLogo.svg";
+                    }}
+                  />
+                  <div className="movieTitle p-2">
+                    <h4>{movie.title}</h4>
+                    <div className="overlayBody no-hover">
+                      <p>
+                        Added on{" "}
+                        {new Date(movie.created_at).toLocaleDateString()}
+                      </p>
+                      <Button disabled={loading} style={{ opacity: 1 }}>
+                        Watched it!
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+          );
+        })}
+        {nextPageUrl && (
+          <Row className="pt-3">
+            <Col xs={12}>
+              <div className="text-center">
+                <Button
+                  disabled={loading}
+                  className="mainBtn"
+                  onClick={() => buildMovies(nextPageUrl)}
+                >
+                  Show More
+                </Button>
+              </div>
+            </Col>
+          </Row>
+        )}
+      </>
+    );
+  };
 
   // Build movies on load
   useEffect(() => {
     setError("");
-    setLoading(true);
     buildMovies(null);
-    setLoading(false);
   }, [buildMovies]);
-
-  if (loading) {
-    return <h2>Loading...</h2>;
-  }
 
   return (
     <React.Fragment>
@@ -183,14 +238,20 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
       <Container className="section">
         <Row className="pt-1">
           <Col xs={12}>{error && <Alert variant="danger">{error}</Alert>}</Col>
+          <Col xs={12} className="pb-1">
+            <h4>Your {watched ? "Watched" : "Unseen"} Movies</h4>
+          </Col>
           <Col xs={12}>
             <div className="d-flex justify-content-between">
-              <Button
-                className="mainBtn"
-                onClick={() => setShowCreateModal(true)}
-              >
-                <FaPlusSquare /> Add New Movie
-              </Button>
+              {!watched && (
+                <Button
+                  className="mainBtn"
+                  disabled={loading}
+                  onClick={() => setShowCreateModal(true)}
+                >
+                  <FaPlusSquare /> Add New Movie
+                </Button>
+              )}
               <OverlayTrigger
                 overlay={<Tooltip id="tooltip-disabled">Coming Soon!</Tooltip>}
               >
@@ -211,21 +272,8 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
         </Row>
         <Row className="pt-3">
           <MovieList movies={movies} />
+          {loading && <h3>Loading...</h3>}
         </Row>
-        {nextPageUrl && (
-          <Row className="pt-3">
-            <Col xs={12}>
-              <div className="text-center">
-                <Button
-                  className="mainBtn"
-                  onClick={() => buildMovies(nextPageUrl)}
-                >
-                  Show More
-                </Button>
-              </div>
-            </Col>
-          </Row>
-        )}
       </Container>
     </React.Fragment>
   );
