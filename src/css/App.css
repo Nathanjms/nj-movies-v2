@@ -1,23 +1,23 @@
 :root {
-  --primary: #7B26AD;
-  --primary2: #BB79E2;
-  --teal: #74A4BC;
-  --teal2: #5089A5;
-  --green: #09814A;
-  --red: #AD2831;
+  --primary: #7b26ad;
+  --primary2: #bb79e2;
+  --teal: #74a4bc;
+  --teal2: #5089a5;
+  --green: #09814a;
+  --red: #ad2831;
   --dark: #272727;
   --dark2: #333333;
 }
 
 @media (hover: hover) {
   .no-hover {
-    display:none;
+    display: none;
   }
 }
 
 @media (hover: none) {
   .hover-required {
-    display:none;
+    display: none;
   }
 }
 
@@ -109,6 +109,11 @@ body {
   }
 }
 
+.loadingBlur {
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+}
+
 /*--------------------------------------------------------------
 # Footer
 --------------------------------------------------------------*/
@@ -160,16 +165,16 @@ body {
 --------------------------------------------------------------*/
 
 .mainBtn {
-    color: var(--dark2);
-    padding: 10px 20px;
-    transition: 0.3s;
-    font-size: 15px;
-    border-radius: 1.5rem;
-    background: #f2f3f5;
-    border-color: #f2f3f5;
-    width: fit-content;
-    overflow: hidden;
-    white-space: pre-wrap;
+  color: var(--dark2);
+  padding: 10px 20px;
+  transition: 0.3s;
+  font-size: 15px;
+  border-radius: 1.5rem;
+  background: #f2f3f5;
+  border-color: #f2f3f5;
+  width: fit-content;
+  overflow: hidden;
+  white-space: pre-wrap;
 }
 
 .mainBtn:hover,

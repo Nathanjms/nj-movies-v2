@@ -14,7 +14,6 @@ import Footer from "./Global/Footer";
 import { Container } from "react-bootstrap";
 import Movies from "./Movies/Movies";
 import Demo from "./Movies/Demo";
-import Watched from "./Movies/Watched";
 import Random from "./Movies/Random";
 import About from "./Movies/About";
 import { AuthContext, useAuth, User, UserMovieGroup } from "./Auth/AuthContext";
@@ -84,7 +83,7 @@ function App(): JSX.Element {
                 path="/"
                 element={
                   <RequireAuth>
-                    <Movies watched={false}/>
+                    <Movies watched={false} />
                   </RequireAuth>
                 }
               />
