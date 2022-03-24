@@ -150,7 +150,7 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
   };
 
   const MovieList: React.FC<MovieListProps> = ({ movies }): ReactElement => {
-    if (movies.length === 0) {
+    if (movies.length === 0 && !loading) {
       return <h3>No Movies!</h3>;
     }
     return (
