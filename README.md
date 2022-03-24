@@ -6,10 +6,10 @@ Version two of my [Movies repo](https://github.com/Nathanjms/nathanjms-movies), 
 
 ### Setup
 
-1. Set up https://github.com/Nathanjms/nj-node-api by following the README instructions in that Repository.
+1. Set up https://github.com/Nathanjms/nj-node-api by following the `readme` instructions in that Repository.
 2. Run `cp .env.example .env`
 3. Update the credentials in the `.env` file
 4. Run `npm start`
-5. If you have ran the seeds in the database attathced to the API, you should now be able to login with:
+5. If you have ran the db seeder in nj-node-api, you should now be able to login with:
     - Username: `nj1@test.com` 
     - Password: `123456`
