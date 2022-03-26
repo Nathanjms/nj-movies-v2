@@ -1,5 +1,12 @@
 import React, { ReactElement } from "react";
-import { Button, Modal, Form } from "react-bootstrap";
+import {
+  Button,
+  Modal,
+  Form,
+  ToggleButtonGroup,
+  ToggleButton,
+  Row,
+} from "react-bootstrap";
 import {
   moviesOrderColumnsArray,
   validMovieOrderBy,
@@ -25,8 +32,6 @@ export default function MovieSortModal({
   orderColumn,
   watched,
 }: MovieSortModalProps): ReactElement {
-  const handleSubmit = async () => {};
-
   return (
     <>
       <Modal
@@ -40,28 +45,59 @@ export default function MovieSortModal({
           <Modal.Title>Sort Movies</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Group id="title">
-            <Form.Label>test</Form.Label>
-            <Form.Select>
+          <Row className="pt-1 pb-1">
+            <Form.Label className="col-sm-3">Order</Form.Label>
+            <ToggleButtonGroup
+              className="col-sm-9"
+              name="orderBy"
+              onChange={(value) => setOrderBy(value)}
+              defaultValue={orderBy}
+            >
+              <ToggleButton
+                id="radioBtnAsc"
+                value="asc"
+                disabled={orderBy === "asc"}
+              >
+                Ascending
+              </ToggleButton>
+              <ToggleButton
+                id="radioBtnDesc"
+                value="desc"
+                disabled={orderBy === "desc"}
+              >
+                Descending
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Row>
+          <Row className="pt-1 pb-1">
+            <Form.Label className="col-sm-3">Order By</Form.Label>
+            <ToggleButtonGroup
+              className="col-sm-9"
+              name="orderColumn"
+              onChange={(value) => setOrderColumn(value)}
+              defaultValue={orderColumn}
+            >
               {moviesOrderColumnsArray.map((col, index) => {
                 if (col.value === "seen_at" && !watched) {
                   return null;
                 }
                 return (
-                  <option key={col.value} value={col.value}>
+                  <ToggleButton
+                    key={col.value}
+                    id={`radioBtn${col.value}`}
+                    value={col.value}
+                    disabled={orderColumn === col.value}
+                  >
                     {col.name}
-                  </option>
+                  </ToggleButton>
                 );
               })}
-            </Form.Select>
-          </Form.Group>
+            </ToggleButtonGroup>
+          </Row>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowSortModal(false)}>
             Close
-          </Button>
-          <Button variant="primary" onClick={handleSubmit} type="button">
-            Submit
           </Button>
         </Modal.Footer>
       </Modal>

@@ -1,4 +1,10 @@
-import React, { ReactElement, useEffect, useState, useCallback } from "react";
+import React, {
+  ReactElement,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+} from "react";
 import {
   Alert,
   Button,
@@ -8,7 +14,7 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { FaPeopleArrows, FaPlusSquare } from "react-icons/fa";
+import { FaPeopleArrows, FaPlusSquare, FaSort } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthContext";
 import {
@@ -17,8 +23,13 @@ import {
   routes,
   tmdbImageUrl,
 } from "../../helpers/apiCommunication";
-import { perPage } from "../../helpers/movies";
+import {
+  perPage,
+  validMovieOrderBy,
+  validMovieOrderColumn,
+} from "../../helpers/movies";
 import MovieFormModal from "./MovieFormModal";
+import MovieSortModal from "./MovieSortModal";
 import "../../css/Movies.css";
 import { AxiosResponse } from "axios";
 import toast, { Toaster } from "react-hot-toast";
@@ -42,6 +53,7 @@ interface Movie {
   group_id: number | null;
   created_by: number;
   created_at: string;
+  seen_at: string | null;
 }
 
 export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
@@ -53,11 +65,23 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
   const [error, setError] = useState<string>("");
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [nextPageUrl, setNextPageUrl] = useState<string | null>(null);
+  const [showSortModal, setShowSortModal] = useState(false);
+  const [orderBy, setOrderBy] = useState<validMovieOrderBy>("desc");
+  const [orderColumn, setOrderColumn] =
+    useState<validMovieOrderColumn>("created_at");
+  const oldWatchedState = useRef(watched);
 
   const buildMovies = useCallback(
     async (queryUrl: string | null = null, loadMoreState: boolean = false) => {
       if (!token) {
         return;
+      }
+      // Check if switched between watched/unwatched
+      if (watched !== oldWatchedState.current) {
+        // Reset order by settings
+        setOrderBy("desc");
+        setOrderColumn("created_at");
+        oldWatchedState.current = watched; // Now handled, set this to the current state
       }
       if (loadMoreState) {
         setCanLoadMore(true);
@@ -77,6 +101,8 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
               perPage: perPage(),
               // groupId: 1, // TODO: Add back in once group functionality has been developed
               watched: watched,
+              orderCol: orderColumn,
+              order: orderBy,
             },
           });
         }
@@ -116,7 +142,7 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
         }
       }
     },
-    [token, navigate, watched]
+    [token, navigate, watched, orderBy, orderColumn]
   );
 
   const markAsSeen = async (movieId: number, movieName: string) => {
@@ -169,31 +195,38 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                     <div className="p-3">
                       <h5>{movie.title}</h5>
                       <div className="overlayBody">
-                        <span>
+                        <div>
                           Added on{" "}
-                          {/* TODO: change to 'seen on' for watched movies */}
                           {new Date(movie.created_at).toLocaleDateString()}
-                        </span>
+                        </div>
                         {!watched && (
                           <>
-                            <br /><br />
                             <Button
                               onClick={() => markAsSeen(movie.id, movie.title)}
                               style={{ opacity: 1 }}
+                              className="mt-1"
                             >
                               Watched it!
                             </Button>
                           </>
                         )}
                         {watched && (
-                          <StarRatings
-                            movieId={movie.id}
-                            movieRating={movie.rating ?? 0}
-                            authenticatedRequest={AuthenticatedRequest(
-                              token ?? ""
-                            )}
-                            overlay={true}
-                          />
+                          <>
+                            <div>
+                              Seen on{" "}
+                              {movie?.seen_at
+                                ? new Date(movie.seen_at).toLocaleDateString()
+                                : "N/A"}
+                            </div>
+                            <StarRatings
+                              movieId={movie.id}
+                              movieRating={movie.rating ?? 0}
+                              authenticatedRequest={AuthenticatedRequest(
+                                token ?? ""
+                              )}
+                              overlay={true}
+                            />
+                          </>
                         )}
                       </div>
                     </div>
@@ -215,26 +248,37 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                   <div className="movieTitle p-2">
                     <h5>{movie.title}</h5>
                     <div className="overlayBody no-hover">
-                      <span>
+                      <div>
                         Added on{" "}
                         {new Date(movie.created_at).toLocaleDateString()}
-                      </span>
+                      </div>
                       {!watched && (
                         <>
-                          <br /><br />
-                          <Button disabled={loading} style={{ opacity: 1 }}>
+                          <Button
+                            disabled={loading}
+                            style={{ opacity: 1 }}
+                            className="mt-1"
+                          >
                             Watched it!
                           </Button>
                         </>
                       )}
                       {watched && (
-                        <StarRatings
-                          movieId={movie.id}
-                          movieRating={movie.rating ?? 0}
-                          authenticatedRequest={AuthenticatedRequest(
-                            token ?? ""
-                          )}
-                        />
+                        <>
+                          <div>
+                            Seen on{" "}
+                            {movie?.seen_at
+                              ? new Date(movie.seen_at).toLocaleDateString()
+                              : "N/A"}
+                          </div>
+                          <StarRatings
+                            movieId={movie.id}
+                            movieRating={movie.rating ?? 0}
+                            authenticatedRequest={AuthenticatedRequest(
+                              token ?? ""
+                            )}
+                          />
+                        </>
                       )}
                     </div>
                   </div>
@@ -293,6 +337,15 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
         show={showCreateModal}
         buildMovies={buildMovies}
       />
+      <MovieSortModal
+        setShowSortModal={setShowSortModal}
+        show={showSortModal}
+        setOrderBy={setOrderBy}
+        orderBy={orderBy}
+        setOrderColumn={setOrderColumn}
+        orderColumn={orderColumn}
+        watched={watched}
+      />
       <Container className="section">
         <Row className="pt-1">
           <Col xs={12}>{error && <Alert variant="danger">{error}</Alert>}</Col>
@@ -300,31 +353,44 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
             <h4>Your {watched ? "Watched" : "Unseen"} Movies</h4>
           </Col>
           <Col xs={12}>
-            <div className="d-flex justify-content-between">
-              {!watched && (
-                <Button
-                  className="mainBtn"
-                  disabled={loading}
-                  onClick={() => setShowCreateModal(true)}
-                >
-                  <FaPlusSquare /> Add New Movie
-                </Button>
-              )}
-              <OverlayTrigger
-                overlay={<Tooltip id="tooltip-disabled">Coming Soon!</Tooltip>}
-              >
-                <span className="d-inline-block">
+            <div className="row justify-content-between">
+              <Col sm={6} className="pb-1">
+                {!watched && (
                   <Button
                     className="mainBtn"
-                    onClick={() => {
-                      console.log("Group Dialogue");
-                    }}
-                    disabled={true}
+                    disabled={loading}
+                    onClick={() => setShowCreateModal(true)}
                   >
-                    <FaPeopleArrows /> Change Group
+                    <FaPlusSquare /> Add New Movie
                   </Button>
-                </span>
-              </OverlayTrigger>
+                )}
+              </Col>
+              <Col sm={6} className="text-sm-end pb-1">
+                <OverlayTrigger
+                  overlay={
+                    <Tooltip id="tooltip-disabled">Coming Soon!</Tooltip>
+                  }
+                >
+                  <span className="d-inline-block">
+                    <Button
+                      className="mainBtn"
+                      onClick={() => {
+                        console.log("Group Dialogue");
+                      }}
+                      disabled={true}
+                    >
+                      <FaPeopleArrows /> Change Group
+                    </Button>
+                  </span>
+                </OverlayTrigger>
+                <Button
+                  className="mainBtn ms-1"
+                  disabled={loading}
+                  onClick={() => setShowSortModal(true)}
+                >
+                  <FaSort /> Sort
+                </Button>
+              </Col>
             </div>
           </Col>
         </Row>
