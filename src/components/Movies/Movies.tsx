@@ -367,8 +367,7 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                   </span>
                 </OverlayTrigger>
                 <Button
-                  className="mainBtn"
-                  style={{marginLeft: '0.5rem'}}
+                  className="mainBtn ms-1"
                   disabled={loading}
                   onClick={() => setShowSortModal(true)}
                 >
