@@ -1,4 +1,10 @@
-import React, { ReactElement, useEffect, useState, useCallback } from "react";
+import React, {
+  ReactElement,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+} from "react";
 import {
   Alert,
   Button,
@@ -62,11 +68,19 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
   const [orderBy, setOrderBy] = useState<validMovieOrderBy>("desc");
   const [orderColumn, setOrderColumn] =
     useState<validMovieOrderColumn>("created_at");
+  const oldWatchedState = useRef(watched);
 
   const buildMovies = useCallback(
     async (queryUrl: string | null = null, loadMoreState: boolean = false) => {
       if (!token) {
         return;
+      }
+      // Check if switched between watched/unwatched
+      if (watched !== oldWatchedState.current) {
+        // Reset order by settings
+        setOrderBy("desc");
+        setOrderColumn("created_at");
+        oldWatchedState.current = watched; // Now handled, set this to the current state
       }
       if (loadMoreState) {
         setCanLoadMore(true);
@@ -354,6 +368,7 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                 </OverlayTrigger>
                 <Button
                   className="mainBtn"
+                  style={{marginLeft: '0.5rem'}}
                   disabled={loading}
                   onClick={() => setShowSortModal(true)}
                 >
