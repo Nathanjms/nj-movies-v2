@@ -1,6 +1,6 @@
-import React, { ReactElement, useContext } from "react";
+import React, { ReactElement } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import { AuthContext } from "../Auth/AuthContext";
+import { useAuth } from "../Auth/AuthContext";
 
 interface UserGreetingProps {
   userName: string | undefined;
@@ -17,7 +17,7 @@ const UserGreeting = ({ userName }: UserGreetingProps): ReactElement | null => {
 };
 
 function Home() {
-  const authContext = useContext(AuthContext);
+  const { user } = useAuth();
 
   return (
     <div id="header" className="section">
@@ -29,7 +29,7 @@ function Home() {
             </span>
             <h1>Movies</h1>
           </Col>
-          <UserGreeting userName={authContext?.user?.name} />
+          <UserGreeting userName={user?.name} />
         </Row>
       </Container>
     </div>

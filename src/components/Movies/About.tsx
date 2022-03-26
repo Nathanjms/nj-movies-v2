@@ -12,7 +12,7 @@ export const NotFound: React.FC<NotFoundProps> = (): ReactElement => {
         </Row>
         <Row>
           <Col xs={12}>
-            <p>Moviessss</p>
+            <p>Coming Soon...</p>
           </Col>
         </Row>
       </Container>

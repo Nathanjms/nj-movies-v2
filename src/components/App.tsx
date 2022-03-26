@@ -125,7 +125,7 @@ function RequireAuth({ children }: { children: JSX.Element }) {
           from: location,
           logInMessage: {
             message: "You must be logged in to access that section.",
-            type: "danger",
+            type: "info",
           },
         }}
         replace

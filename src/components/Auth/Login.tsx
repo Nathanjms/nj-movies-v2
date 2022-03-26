@@ -28,7 +28,7 @@ export default function Login() {
   );
 
   const AlertElement = (): ReactElement | null => {
-    if (!logInMessage?.message || from === "/") {
+    if (!logInMessage?.message) {
       return null;
     }
     return (

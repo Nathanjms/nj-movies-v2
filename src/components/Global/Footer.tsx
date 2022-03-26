@@ -40,9 +40,9 @@ function Footer() {
                 <li>
                   <a href="https://tools.nathanjms.co.uk">Tools</a>
                 </li>
-                <li>Last updated: 12th March 2022</li>
+                <li>Last updated: 26th March 2022</li>
                 <li>
-                  Enhanced by{" "}
+                  Film Images provided by{" "}
                   <a
                     href="https://www.themoviedb.org/"
                     target="_blank"
