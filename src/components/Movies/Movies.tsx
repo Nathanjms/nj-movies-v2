@@ -53,6 +53,7 @@ interface Movie {
   group_id: number | null;
   created_by: number;
   created_at: string;
+  seen_at: string | null;
 }
 
 export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
@@ -194,32 +195,38 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                     <div className="p-3">
                       <h5>{movie.title}</h5>
                       <div className="overlayBody">
-                        <span>
+                        <div>
                           Added on{" "}
-                          {/* TODO: change to 'seen on' for watched movies */}
                           {new Date(movie.created_at).toLocaleDateString()}
-                        </span>
+                        </div>
                         {!watched && (
                           <>
-                            <br />
-                            <br />
                             <Button
                               onClick={() => markAsSeen(movie.id, movie.title)}
                               style={{ opacity: 1 }}
+                              className="mt-1"
                             >
                               Watched it!
                             </Button>
                           </>
                         )}
                         {watched && (
-                          <StarRatings
-                            movieId={movie.id}
-                            movieRating={movie.rating ?? 0}
-                            authenticatedRequest={AuthenticatedRequest(
-                              token ?? ""
-                            )}
-                            overlay={true}
-                          />
+                          <>
+                            <div>
+                              Seen on{" "}
+                              {movie?.seen_at
+                                ? new Date(movie.seen_at).toLocaleDateString()
+                                : "N/A"}
+                            </div>
+                            <StarRatings
+                              movieId={movie.id}
+                              movieRating={movie.rating ?? 0}
+                              authenticatedRequest={AuthenticatedRequest(
+                                token ?? ""
+                              )}
+                              overlay={true}
+                            />
+                          </>
                         )}
                       </div>
                     </div>
@@ -241,27 +248,37 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                   <div className="movieTitle p-2">
                     <h5>{movie.title}</h5>
                     <div className="overlayBody no-hover">
-                      <span>
+                      <div>
                         Added on{" "}
                         {new Date(movie.created_at).toLocaleDateString()}
-                      </span>
+                      </div>
                       {!watched && (
                         <>
-                          <br />
-                          <br />
-                          <Button disabled={loading} style={{ opacity: 1 }}>
+                          <Button
+                            disabled={loading}
+                            style={{ opacity: 1 }}
+                            className="mt-1"
+                          >
                             Watched it!
                           </Button>
                         </>
                       )}
                       {watched && (
-                        <StarRatings
-                          movieId={movie.id}
-                          movieRating={movie.rating ?? 0}
-                          authenticatedRequest={AuthenticatedRequest(
-                            token ?? ""
-                          )}
-                        />
+                        <>
+                          <div>
+                            Seen on{" "}
+                            {movie?.seen_at
+                              ? new Date(movie.seen_at).toLocaleDateString()
+                              : "N/A"}
+                          </div>
+                          <StarRatings
+                            movieId={movie.id}
+                            movieRating={movie.rating ?? 0}
+                            authenticatedRequest={AuthenticatedRequest(
+                              token ?? ""
+                            )}
+                          />
+                        </>
                       )}
                     </div>
                   </div>
