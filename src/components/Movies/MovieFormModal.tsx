@@ -54,11 +54,11 @@ export default function MovieFormModal({
         }
       );
       if (result?.data?.success) {
-        buildMovies(); // Do not pass query URL to load movie list page 1.
+        buildMovies(); // Do not pass query URL to (re)load movie list page 1.
         setShowCreateModal(false);
-        return;
+      } else {
+        setError("Unsuccessful response from server!");
       }
-      setError("Unsuccessful response from server!");
     } catch (error: any) {
       if (error?.response?.status === 401) {
         localStorage.clear();
@@ -77,6 +77,8 @@ export default function MovieFormModal({
         setError("Unexpected error :c");
       }
     }
+    setLoading(false);
+    setMovie(null);
   };
 
   const searchApi = async (inputValue: string) => {
