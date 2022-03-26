@@ -8,7 +8,7 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { FaPeopleArrows, FaPlusSquare } from "react-icons/fa";
+import { FaPeopleArrows, FaPlusSquare, FaSort } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthContext";
 import {
@@ -86,6 +86,8 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
               perPage: perPage(),
               // groupId: 1, // TODO: Add back in once group functionality has been developed
               watched: watched,
+              orderCol: orderColumn,
+              order: orderBy,
             },
           });
         }
@@ -125,7 +127,7 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
         }
       }
     },
-    [token, navigate, watched]
+    [token, navigate, watched, orderBy, orderColumn]
   );
 
   const markAsSeen = async (movieId: number, movieName: string) => {
