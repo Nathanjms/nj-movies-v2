@@ -247,6 +247,7 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                   />
                   <div className="movieTitle p-2">
                     <h5>{movie.title}</h5>
+                    {/* TODO: merge the below with the almost identical code above */}
                     <div className="overlayBody no-hover">
                       <div>
                         Added on{" "}
@@ -258,6 +259,7 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                             disabled={loading}
                             style={{ opacity: 1 }}
                             className="mt-1"
+                            onClick={() => markAsSeen(movie.id, movie.title)}
                           >
                             Watched it!
                           </Button>
