@@ -17,8 +17,13 @@ import {
   routes,
   tmdbImageUrl,
 } from "../../helpers/apiCommunication";
-import { perPage } from "../../helpers/movies";
+import {
+  perPage,
+  validMovieOrderBy,
+  validMovieOrderColumn,
+} from "../../helpers/movies";
 import MovieFormModal from "./MovieFormModal";
+import MovieSortModal from "./MovieSortModal";
 import "../../css/Movies.css";
 import { AxiosResponse } from "axios";
 import toast, { Toaster } from "react-hot-toast";
@@ -53,6 +58,10 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
   const [error, setError] = useState<string>("");
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [nextPageUrl, setNextPageUrl] = useState<string | null>(null);
+  const [showSortModal, setShowSortModal] = useState(false);
+  const [orderBy, setOrderBy] = useState<validMovieOrderBy>("desc");
+  const [orderColumn, setOrderColumn] =
+    useState<validMovieOrderColumn>("created_at");
 
   const buildMovies = useCallback(
     async (queryUrl: string | null = null, loadMoreState: boolean = false) => {
@@ -176,7 +185,8 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                         </span>
                         {!watched && (
                           <>
-                            <br /><br />
+                            <br />
+                            <br />
                             <Button
                               onClick={() => markAsSeen(movie.id, movie.title)}
                               style={{ opacity: 1 }}
@@ -221,7 +231,8 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
                       </span>
                       {!watched && (
                         <>
-                          <br /><br />
+                          <br />
+                          <br />
                           <Button disabled={loading} style={{ opacity: 1 }}>
                             Watched it!
                           </Button>
@@ -293,6 +304,15 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
         show={showCreateModal}
         buildMovies={buildMovies}
       />
+      <MovieSortModal
+        setShowSortModal={setShowSortModal}
+        show={showSortModal}
+        setOrderBy={setOrderBy}
+        orderBy={orderBy}
+        setOrderColumn={setOrderColumn}
+        orderColumn={orderColumn}
+        watched={watched}
+      />
       <Container className="section">
         <Row className="pt-1">
           <Col xs={12}>{error && <Alert variant="danger">{error}</Alert>}</Col>
@@ -300,31 +320,44 @@ export const Movies: React.FC<MoviesProps> = ({ watched }): ReactElement => {
             <h4>Your {watched ? "Watched" : "Unseen"} Movies</h4>
           </Col>
           <Col xs={12}>
-            <div className="d-flex justify-content-between">
-              {!watched && (
+            <div className="row justify-content-between">
+              <Col sm={6} className="pb-1">
+                {!watched && (
+                  <Button
+                    className="mainBtn"
+                    disabled={loading}
+                    onClick={() => setShowCreateModal(true)}
+                  >
+                    <FaPlusSquare /> Add New Movie
+                  </Button>
+                )}
+              </Col>
+              <Col sm={6} className="text-sm-end pb-1">
+                <OverlayTrigger
+                  overlay={
+                    <Tooltip id="tooltip-disabled">Coming Soon!</Tooltip>
+                  }
+                >
+                  <span className="d-inline-block">
+                    <Button
+                      className="mainBtn"
+                      onClick={() => {
+                        console.log("Group Dialogue");
+                      }}
+                      disabled={true}
+                    >
+                      <FaPeopleArrows /> Change Group
+                    </Button>
+                  </span>
+                </OverlayTrigger>
                 <Button
                   className="mainBtn"
                   disabled={loading}
-                  onClick={() => setShowCreateModal(true)}
+                  onClick={() => setShowSortModal(true)}
                 >
-                  <FaPlusSquare /> Add New Movie
+                  <FaSort /> Sort
                 </Button>
-              )}
-              <OverlayTrigger
-                overlay={<Tooltip id="tooltip-disabled">Coming Soon!</Tooltip>}
-              >
-                <span className="d-inline-block">
-                  <Button
-                    className="mainBtn"
-                    onClick={() => {
-                      console.log("Group Dialogue");
-                    }}
-                    disabled={true}
-                  >
-                    <FaPeopleArrows /> Change Group
-                  </Button>
-                </span>
-              </OverlayTrigger>
+              </Col>
             </div>
           </Col>
         </Row>
