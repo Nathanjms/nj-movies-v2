@@ -5,7 +5,7 @@ export const baseURL = process.env.REACT_APP_API_URL || "http://localhost:3002";
 export const routes = {
   auth: {
     SIGN_IN: "/api/auth/signin",
-    SIGN_UP: "/api/auth/register",
+    REGISTER: "/api/auth/register",
   },
   movies: {
     GET: "/api/movies",
