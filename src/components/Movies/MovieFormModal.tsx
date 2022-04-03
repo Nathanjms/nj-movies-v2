@@ -138,7 +138,6 @@ export default function MovieFormModal({
       <Modal
         className="movieModal text-start"
         centered={true}
-        size="lg"
         show={show}
         onHide={() => setShowCreateModal(false)}
         onEntered={() => {
