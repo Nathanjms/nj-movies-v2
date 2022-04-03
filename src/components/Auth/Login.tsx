@@ -1,18 +1,11 @@
 import React, { ReactElement, useState } from "react";
-import {
-  Form,
-  Button,
-  Card,
-  Container,
-  Alert,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Form, Card, Container, Alert, Row, Col } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { baseURL, routes } from "../../helpers/apiCommunication";
 import { useAuth } from "./AuthContext";
 import { LogInMessage } from "../App";
+import { SubmitBtn } from "../Global/Buttons";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
@@ -122,15 +115,11 @@ export default function Login() {
                       required
                     />
                   </Form.Group>
-                  <Button disabled={loading} className="w-100" type="submit">
-                    Log In
-                  </Button>
+                  <SubmitBtn
+                    loading={loading}
+                    loadingMsg="Connecting to API..."
+                  />
                 </Form>
-                {loading && (
-                  <div className="col-lg-12 mt-4">
-                    <p>Connecting to API...</p>
-                  </div>
-                )}
               </Card.Body>
             </Card>
             <div className="w-100 text-center mt-2">
