@@ -1,6 +1,8 @@
-## NJ Movies V2
+_Due to [Heroku removing their free tier](https://help.heroku.com/RSBRUH58/removal-of-heroku-free-product-plans-faq), this website has been shut down :c_ 
 
-_WIP_
+___
+
+## NJ Movies V2
 
 Version two of my [Movies repo](https://github.com/Nathanjms/nathanjms-movies), this time written in typescript, along with a better design and using my [new NodeJS API](https://github.com/Nathanjms/nj-node-api).
 
